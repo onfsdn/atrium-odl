@@ -1,0 +1,142 @@
+/*
+ * Copyright (c) 2015 Hewlett-Packard Development Company, L.P. and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
+module openflow-feature {
+
+    namespace "urn:opendaylight:params:xml:ns:yang:didm:drivers:openflow";
+    prefix of;
+
+    import opendaylight-inventory {prefix inv; revision-date "2013-08-19";}
+    import opendaylight-flow-types {prefix flow;revision-date "2013-10-26";}
+    import opendaylight-match-types {prefix match; revision-date "2013-10-26";}
+    import opendaylight-action-types {prefix action;}
+
+    revision "2015-02-11" { description "Initial implementation."; }
+
+    rpc adjust-flow {
+        description "Adjust the provided flow, if necessary, based on the node's actual capabilities.
+                     Depending on the node's capabilities, multiple flows may be returned.";
+
+        input {
+
+            uses "inv:node-context-ref";
+
+            container flow {
+               description "The flow to be adjusted.";
+               uses flow:flow;
+            }
+        }
+
+        output {
+           list flow {
+              description "The node-compatible flow(s) equivalent to the input flow.";
+              uses flow:flow;
+           }
+        }
+    }
+
+    // Following are RPC which are used to expose the RPCs for the
+    // Flow-Objective. Currently there are three Flow Objective.
+    // 1. Next Objecitive
+    // 2. Forwarding Objective
+    // 3. Filterning Objective  
+
+    grouping objective {
+           description "This model depicts the objective equivalent functionality implemented in ONOS as part of Atrium /A release.";
+           leaf operation {
+                type enumeration {
+                    enum add;
+                    enum remove;
+                 }
+            } // close operation
+
+
+            leaf priority {
+                type int32;
+            }
+
+            leaf timeout {
+                 type int32;
+            }
+         } 
+
+     rpc filter {
+            description "Install the filtering rule to the device.";
+            input {
+                uses "inv:node-context-ref";
+
+                container filter-objective {
+
+                  uses match:match; // criteria
+                  uses objective;
+
+                  leaf type {
+                           type enumeration {
+                                enum permit;
+                                enum deny;
+                            }
+                   }
+
+                }
+             }
+          }
+
+     rpc forward {
+            description "Install the forwarding rule to the device.";
+            input {
+                    uses "inv:node-context-ref";
+
+                    container forwarding-objective {
+                      uses objective;
+                      container match {
+                           uses match:match; // traffic selector
+                           }
+
+                      leaf next-id {
+                          type int32;
+                          description "id for the next objective.";
+                      }
+                      leaf flag {
+                           type enumeration {
+                                 enum specific; // decomposable objective
+                                 enum versatile;  //  monolithic objective
+                            }
+                      }
+
+                      uses action:action; // traffic treatment for the fwd objective.
+                    }
+                }
+           }
+
+     rpc next {
+            description "Provide next objective to driver layer.";
+            input {
+                uses "inv:node-context-ref";
+
+                    container next-objective {
+                       description "input reqiured to define next objective.";
+                       uses objective;
+                       leaf type {
+                          type enumeration {
+                               enum simple;
+                               enum hashed;
+                               enum broadcast;
+                               enum failover;
+                               }
+                         }
+
+                        leaf next-id {
+                            type int32;
+                        }
+
+                        list traffic-treatment {
+                              uses action:action-list;
+                        }
+                    }
+                }
+           }
+}

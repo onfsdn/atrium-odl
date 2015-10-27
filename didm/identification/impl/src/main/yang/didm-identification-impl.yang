@@ -1,0 +1,48 @@
+/*
+ * Copyright (c) 2015 Hewlett-Packard Development Company, L.P. and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
+module didm-identification-impl {
+
+    namespace "urn:opendaylight:params:xml:ns:yang:didm:identification:impl";
+    prefix "didm-impl";
+
+    import config { prefix config; revision-date 2013-04-05; }
+    import opendaylight-md-sal-binding { prefix mdsal; revision-date 2013-10-28;}
+
+    revision "2015-02-02" {
+        description "Initial revision";
+    }
+
+    identity device-identification-manager {
+        base config:module-type;
+        config:java-name-prefix DeviceIdentificationManager;
+    }
+
+    augment "/config:modules/config:module/config:configuration" {
+        case device-identification-manager {
+            when "/config:modules/config:module/config:type = 'device-identification-manager'";
+
+            container data-broker {
+                uses config:service-ref {
+                    refine type {
+                        mandatory true;
+                        config:required-identity mdsal:binding-async-data-broker;
+                    }
+                }
+            }
+
+            container rpc-registry {
+                uses config:service-ref {
+                    refine type {
+                        mandatory true;
+                        config:required-identity mdsal:binding-rpc-registry;
+                    }
+                }
+            }
+        }
+    }
+}

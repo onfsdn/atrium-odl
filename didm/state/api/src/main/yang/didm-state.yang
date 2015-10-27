@@ -1,0 +1,111 @@
+/*
+ * Copyright (c) 2015 Ciena and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
+module didm-state {
+
+    namespace "urn:opendaylight:params:xml:ns:yang:didm:state";
+    prefix state;
+
+    import yang-ext { prefix ext; revision-date "2013-07-09"; }
+    import ietf-yang-types { prefix yang; }
+    import opendaylight-inventory { prefix inv; revision-date "2013-08-19"; }
+
+    description "Provide a state augmentation for an inventory node. The state
+        augmentation allows a system to provide meta data for a node pertaining
+        to various states such as its managed, deleted, or synchronized
+        state.";
+
+    revision "2015-02-02" {
+        description "Initial implementation.";
+    }
+
+    grouping change_info {
+        description "provides basic information about when a state was changed and
+                by whom or what it was changed.";
+
+        leaf timestamp {
+            description "timestamp for when a state was last updated.";
+            type yang:timestamp;
+        }
+        leaf by {
+            description "indicates which authentication subject invoked that last state
+                        change.";
+            type string;
+        }
+    }
+
+    grouping attempt_info {
+        description "provides information about a repetitivly checked or verified
+                state.";
+
+        container last_success {
+            uses change_info;
+        }
+
+        container last_attempt {
+            uses change_info;
+
+            leaf last_error {
+                description "if the last attempt of an operation failed this value can be
+                                populated with a message or error indicator.";
+                type string;
+            }
+        }
+    }
+
+    augment "/inv:nodes/inv:node" {
+        ext:augment-identifier "device-state";
+        description "provides an augmentation on the ODL inventory node that provides
+                state information for a device.";
+
+        container managed {
+            description "state indicating if a given device is being actively managed
+                        by the controller.";
+            leaf managed {
+                type boolean;
+            }
+            uses change_info;
+        }
+        container synchronize {
+            description "state indicating in which phase of synchronization the device
+                        is currently";
+            leaf state {
+                type enumeration {
+                    enum unsynchronized {
+                        description "No attempt has been made to synchronize device or for some reason,
+                                                such as loss of communications, the device is considered out of
+                                                synchronization";
+                    }
+                    enum synchronizing {
+                        description "Device is currently being synchronized.";
+                    }
+                    enum synchronized {
+                        description "Device has been successfully synchronized;";
+                    }
+                    enum error {
+                        description "An error was encountered during last synchronization attempt.";
+                    }
+                }
+            }
+            uses attempt_info;
+        }
+        container communication {
+            description "state indicating if communications to the device are functional.";
+            leaf state {
+                type enumeration {
+                    enum up {
+                        description "Communications are known to be functional.";
+                    }
+                    enum down {
+                        description "Communications are known to be non-functional.";
+                    }
+                }
+            }
+            uses attempt_info;
+        }
+    }
+}
