@@ -38,7 +38,26 @@ import org.opendaylight.yang.gen.v1.urn.opendaylight.model.match.types.rev131026
 import org.opendaylight.yang.gen.v1.urn.opendaylight.model.match.types.rev131026.vlan.match.fields.VlanIdBuilder;
 
 public enum ActionUtils {
+	
+	output {
+        @Override
+        public Action buildAction(ActionData actionInfo) {
+            String[] actionValues = actionInfo.getActionValues();
+            String port = actionValues[0];
+            int maxLength = 0;
 
+            if (actionValues.length == 2) {
+                maxLength = Integer.valueOf(actionValues[1]);
+            }
+
+            return new ActionBuilder().setAction(
+                    new OutputActionCaseBuilder().setOutputAction(
+                            new OutputActionBuilder().setMaxLength(Integer.valueOf(maxLength))
+                                            .setOutputNodeConnector(new Uri(port)).build()).build())
+                    .setKey(new ActionKey(actionInfo.getActionKey())).build();
+        }
+    },
+	
     pop_vlan {
         @Override
         public Action buildAction(ActionData actionInfo) {

@@ -488,7 +488,7 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 				new String[] { String.valueOf(egressInterface.vlan()) }));
 
 		// Set out port
-		actions.add(new ActionData(ActionUtils.set_destination_port_field, new String[] { outPort }));
+		actions.add(new ActionData(ActionUtils.output, new String[] { outPort }));
 
 		List<Action> actionList = new ArrayList<Action>();
 		for (ActionData action : actions) {
@@ -558,7 +558,7 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 			FilterInputBuilder filterBuilder = new FilterInputBuilder();
 			filterBuilder.setFilterObjective(filterObjBuilder.build());
 			filterBuilder.setNode(nodeRef);
-			LOG.info("Invoking filter objective with values: " + filterBuilder);
+			LOG.info("Invoking filter objective with values: " + filterBuilder.build());
 			flowObjectivesService.filter(filterBuilder.build());
 		}
 
