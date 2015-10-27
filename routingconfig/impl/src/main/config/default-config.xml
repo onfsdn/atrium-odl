@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- vi: set et smarttab sw=4 tabstop=4: -->
+<!-- Copyright Wipro Ltd and others. All rights reserved. This program and 
+	the accompanying materials are made available under the terms of the Eclipse 
+	Public License v1.0 which accompanies this distribution, and is available 
+	at http://www.eclipse.org/legal/epl-v10.html -->
+<snapshot>
+	<required-capabilities>
+		<capability>urn:opendaylight:params:xml:ns:yang:routingconfig:api?module=routingconfig-api&amp;revision=2015-07-25
+		</capability>
+		<capability>urn:opendaylight:params:xml:ns:yang:routingconfig:impl?module=routingconfig-impl&amp;revision=2015-07-25
+		</capability>
+		<capability>urn:opendaylight:params:xml:ns:yang:controller:md:sal:binding?module=opendaylight-md-sal-binding&amp;revision=2013-10-28
+		</capability>
+	</required-capabilities>
+	<configuration>
+		<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+			<modules xmlns="urn:opendaylight:params:xml:ns:yang:controller:config">
+				<module>
+					<type xmlns:prefix="urn:opendaylight:params:xml:ns:yang:routingconfig:impl">prefix:routingconfig-impl</type>
+					<name>routingconfig-default</name>
+					<broker>
+						<type
+							xmlns:binding="urn:opendaylight:params:xml:ns:yang:controller:md:sal:binding">binding:binding-broker-osgi-registry</type>
+						<name>binding-osgi-broker</name>
+					</broker>
+					<data-broker>
+						<type
+							xmlns:binding="urn:opendaylight:params:xml:ns:yang:controller:md:sal:binding">binding:binding-async-data-broker
+						</type>
+						<name>binding-data-broker</name>
+					</data-broker>
+				</module>
+			</modules>
+			<services xmlns="urn:opendaylight:params:xml:ns:yang:controller:config">
+				<service>
+					<type xmlns:prefix="urn:opendaylight:params:xml:ns:yang:routingconfig:api">prefix:routingconfig-api</type>
+					<instance>
+						<name>routingconfig</name>
+						<provider>/modules/module[type='routingconfig-impl'][name='routingconfig-default']
+						</provider>
+					</instance>
+				</service>
+			</services>
+		</data>
+	</configuration>
+</snapshot>

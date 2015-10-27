@@ -1,0 +1,7 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+	<command-bundle xmlns="http://karaf.apache.org/xmlns/shell/v1.0.0">
+		<command name="atrium/fib">
+			<action class="org.opendaylight.atrium.cli.FibCommand" />
+		</command>
+	</command-bundle>
+</blueprint>

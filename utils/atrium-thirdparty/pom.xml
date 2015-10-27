@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2015 Wipro Ltd.  All rights reserved.
+This program and the accompanying materials are made available under the
+terms of the Eclipse Public License v1.0 which accompanies this distribution,
+and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.opendaylight.odlparent</groupId>
+		<artifactId>odlparent</artifactId>
+		<version>1.5.2-SNAPSHOT</version>
+		<relativePath />
+	</parent>
+
+	<groupId>org.opendaylight.atrium</groupId>
+	<artifactId>atrium-thirdparty</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>bundle</packaging>
+	<description>ODL Atrium third-party dependencies</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.googlecode.concurrent-trees</groupId>
+			<artifactId>concurrent-trees</artifactId>
+			<version>2.4.0</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<configuration>
+					<createSourcesJar>true</createSourcesJar>
+
+					<artifactSet>
+						<excludes>
+							<!-- exclude OSGi-ready transitive dependencies -->
+							<exclude>com.google.guava:guava</exclude>
+							<exclude>com.esotericsoftware:*</exclude>
+							<exclude>org.ow2.asm:asm</exclude>
+							<exclude>org.objenesis:objenesis</exclude>
+							<exclude>io.netty:*</exclude>
+						</excludes>
+					</artifactSet>
+					<filters>
+						<filter>
+							<artifact>com.googlecode.concurrent-trees:concurrent-trees</artifact>
+							<includes>
+								<include>com/googlecode/**</include>
+
+							</includes>
+						</filter>
+
+					</filters>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<configuration>
+					<instructions>
+						<Export-Package>
+							com.googlecode.concurrenttrees.*
+						</Export-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

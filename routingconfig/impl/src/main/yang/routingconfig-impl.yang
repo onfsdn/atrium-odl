@@ -1,0 +1,54 @@
+/*
+ * Copyright (c) 2015 Wipro Ltd. and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
+module routingconfig-impl {
+    yang-version 1;
+    namespace "urn:opendaylight:params:xml:ns:yang:routingconfig:impl";
+    prefix "routingconfig-impl";
+
+    import config { prefix config; revision-date 2013-04-05; }
+    import opendaylight-md-sal-binding { prefix mdsal; revision-date 2013-10-28;}
+    import routingconfig-api { prefix routingconfig-api; revision-date 2015-07-25;}
+	import hostservice-api { prefix hostservice-api; revision-date 2015-07-25;}
+	
+    description
+        "Service definition for routingconfig project";
+
+    revision "2015-07-25" {
+        description
+            "Initial revision";
+    }
+
+    identity routingconfig-impl {
+        base config:module-type;
+        config:provided-service routingconfig-api:routingconfig-api;
+        config:java-name-prefix RoutingConfigImpl;
+    }
+
+    augment "/config:modules/config:module/config:configuration" {
+        case routingconfig-impl {
+            when "/config:modules/config:module/config:type = 'routingconfig-impl'";
+                       
+            container broker {
+                uses config:service-ref {
+                    refine type {
+                        mandatory true;     //true or false
+                        config:required-identity mdsal:binding-broker-osgi-registry;
+                    }
+                }
+            }
+            container data-broker {
+                uses config:service-ref {
+                    refine type {
+                        mandatory false;
+                        config:required-identity mdsal:binding-async-data-broker;
+                    }
+                }
+            }  
+        }
+    }
+}
