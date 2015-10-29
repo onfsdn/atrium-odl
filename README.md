@@ -7,6 +7,6 @@ Build : mvn clean install
 Run: 
 - Go to distribution-karaf/target/assembly/bin 
 - Start Karaf by ./karaf clean 
-- Install features 
-   feature:install odl-l2switch-all 
+- Install features:  
+   feature:install odl-l2switch-all,  
    feature:install odl-atrium-all 
