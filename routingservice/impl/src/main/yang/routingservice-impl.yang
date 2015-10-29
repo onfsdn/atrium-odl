@@ -1,0 +1,89 @@
+/*
+ * Copyright (c) 2015 Wipro Ltd. and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
+module routingservice-impl {
+    yang-version 1;
+    namespace "urn:opendaylight:params:xml:ns:yang:routingservice:impl";
+    prefix "routingservice-impl";
+
+    import config { prefix config; revision-date 2013-04-05; }
+    import opendaylight-md-sal-binding { prefix mdsal; revision-date 2013-10-28;}
+    import routingconfig-api { prefix routingconfig-api; revision-date 2015-07-25;}
+    import bgpservice-api { prefix bgpservice-api; revision-date 2015-07-25;}
+    import routingservice-api { prefix routingservice-api; revision-date 2015-07-25;}
+    import hostservice-api { prefix hostservice-api; revision-date 2015-07-25;}
+    
+    description
+        "Service definition for routingservice project";
+
+    revision "2015-07-25" {
+        description
+            "Initial revision";
+    }
+       
+    identity routingservice-impl {
+        base config:module-type;
+        config:provided-service routingservice-api:routingservice-api;
+        config:java-name-prefix RoutingserviceImpl;
+    }
+
+    augment "/config:modules/config:module/config:configuration" {
+        case routingservice {
+            when "/config:modules/config:module/config:type = 'routingservice-impl'";
+            container broker {
+                uses config:service-ref {
+                    refine type {
+                        mandatory true;
+                        config:required-identity mdsal:binding-broker-osgi-registry;
+                    }
+                }
+            }
+            
+            container notification-service {
+               uses config:service-ref {
+                   refine type {
+                       mandatory true;
+                       config:required-identity mdsal:binding-notification-service;
+                   }
+               }
+            }
+
+            container data-broker {
+                uses config:service-ref {
+                    refine type {
+                        mandatory false;
+                        config:required-identity mdsal:binding-async-data-broker;
+                    }
+                }
+            } 
+            container routingconfig {
+                uses config:service-ref {
+                    refine type {
+                        mandatory true;
+                        config:required-identity routingconfig-api:routingconfig-api;
+                    }
+                }
+            }
+            container bgpservice {
+                uses config:service-ref {
+                    refine type {
+                        mandatory true;
+                        config:required-identity bgpservice-api:bgpservice-api;
+                    }
+                }
+            }            
+            container hostservice {
+                uses config:service-ref {
+                    refine type {
+                        mandatory true;
+                        config:required-identity hostservice-api:hostservice-api;
+                    }
+                }
+            }
+        }
+    }
+}

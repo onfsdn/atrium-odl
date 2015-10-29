@@ -1,0 +1,79 @@
+/*
+ * Copyright (c) 2015 Wipro Ltd. and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
+module hostservice-impl {
+    yang-version 1;
+    namespace "urn:opendaylight:params:xml:ns:yang:hostservice:impl";
+    prefix "hostservice-impl";
+
+    import config { prefix config; revision-date 2013-04-05; }
+    import opendaylight-md-sal-binding { prefix mdsal; revision-date 2013-10-28;}
+    import routingconfig-api { prefix routingconfig-api; revision-date 2015-07-25;}
+  
+	import hostservice-api { prefix hostservice-api; revision-date 2015-07-25;}
+	    
+    description
+        "Service definition for host service impl project";
+
+    revision "2015-07-25" {
+        description
+            "Initial revision";
+    }
+
+    identity hostservice-impl {
+        base config:module-type;
+        config:provided-service hostservice-api:hostservice-api;
+        config:java-name-prefix HostServiceImpl;
+    }
+
+    augment "/config:modules/config:module/config:configuration" {
+        case hostservice-impl {
+            when "/config:modules/config:module/config:type = 'hostservice-impl'";
+            container broker {
+                uses config:service-ref {
+                    refine type {
+                        mandatory true;
+                        config:required-identity mdsal:binding-broker-osgi-registry;
+                    }
+                }
+            }
+            
+            container notification-service {
+               uses config:service-ref {
+                   refine type {
+                       mandatory true;
+                       config:required-identity mdsal:binding-notification-service;
+                   }
+               }
+            }
+            container data-broker {
+                uses config:service-ref {
+                    refine type {
+                        mandatory false;
+                        config:required-identity mdsal:binding-async-data-broker;
+                    }
+                }
+            }
+            container routingconfig {
+                uses config:service-ref {
+                    refine type {
+                        mandatory true;
+                        config:required-identity routingconfig-api:routingconfig-api;
+                    }
+                }
+            } 
+            container rpc-registry {
+                uses config:service-ref {
+                    refine type {
+                        mandatory true;
+                        config:required-identity mdsal:binding-rpc-registry;
+                    }
+                }
+            }             
+        }
+    }
+}
