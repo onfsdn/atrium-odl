@@ -1,0 +1,142 @@
+/*
+ * Copyright (c) 2015 Wipro Ltd. and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
+module bgpconfig {
+	yang-version 1;
+    namespace "urn:opendaylight:params:xml:ns:yang:bgpconfig:api";
+    prefix "bgpconfig";
+
+    import config { prefix config; revision-date 2013-04-05; }
+    
+    import yang-ext {
+        prefix ext;
+    }
+
+    import ietf-inet-types {
+        prefix inet;
+        revision-date 2010-09-24;
+    }
+
+    import ietf-yang-types {
+        prefix yang;
+        revision-date 2010-09-24;
+    }
+    
+    import opendaylight-inventory {
+        prefix inv; 
+        revision-date 2013-08-19;
+    }
+
+    import atriumutil-api {
+	prefix atriumutil-api;
+        revision-date 2015-07-25;
+    }
+
+
+    description
+        "Service definition for bgpmanager project";
+
+    revision "2015-07-25" {
+        description
+            "Initial revision";
+    }
+
+        
+    
+    container bgpSpeakers {
+    	list bgpSpeaker {
+      		key "macAddress";
+      		max-elements "unbounded";
+      		min-elements "0";
+        	description
+          		"BGP Speaker configure class";
+          		
+	        leaf speakerName {
+	          	description
+	            	"The speaker name";
+		        config "true";
+		        type string;
+	
+	        }
+	        
+	        leaf asNumber {
+	        	description "Specifies the AS number of the speaker.";
+            	config "true";
+            	type string {
+	              length "1..11";
+	            }
+	         }
+	         
+	         leaf attachmentDpId {
+	         	description "Specifies the node id of the DP switch";
+	         	config "true" ;
+	         	type inv:node-id;
+	         }
+	         
+	         leaf attachmentPort {
+	         	description "Specifies the node id of the DP switch";
+	         	config "true" ;
+	        	type uint32 {
+	          		range "1..100";
+	        	}
+	         }
+	         
+	         leaf macAddress {
+	         	description "Specifies the node id of the DP switch";
+	         	config "true";
+	        	type yang:mac-address;
+	         }         
+	         
+	         list interfaceAddresses {
+	         	description "List of interfaces";
+	         	config "true";
+				key "of-port-id";
+				uses atriumutil-api:interfaceAddress;
+	         }
+         }
+    }
+    
+    container bgpPeers {
+		list bgpPeer {
+      		key "peerAddr";
+      		max-elements "unbounded";
+      		min-elements "0";
+        	description
+          		"BGP Peer configure class";
+          	
+          	leaf peerAddr {
+          		description
+            		"The nerighbor address";
+            	config "true";
+            	type inet:ip-address;
+            	mandatory true;
+        	}
+        	
+        	leaf remoteAs {
+            	description "Specifies the AS number of the peer.";
+            	config "true";
+            	type string {
+             		length "1..11";
+             	}
+            }
+            
+	        leaf peerDpId {
+	        	description "Specifies the node id of the peer switch";
+	        	config "true" ;
+	         	type inv:node-id;
+	        }
+	         
+	        leaf peerPort {
+	        	description "Specifies the node id of the peer switch";
+	         	config "true" ;
+	        	type uint32 {
+	          		range "1..100";
+	        	}
+	        }
+          }
+      } 
+}

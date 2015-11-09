@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<groupId>org.opendaylight.atrium</groupId>
+	<artifactId>atrium</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>${project.artifactId}</name>
+	<packaging>pom</packaging>
+	<modelVersion>4.0.0</modelVersion>
+	<prerequisites>
+		<maven>3.1.1</maven>
+	</prerequisites>
+	<modules>
+		<module>commons/binding-parent</module>
+		<module>commons/config-parent</module>
+		<module>utils</module>
+		<module>routingconfig</module>
+		<module>hostservice</module>
+		<module>bgpservice</module>
+		<module>routingservice</module>
+		<module>atrium-cli</module>
+	        <module>didm</module>
+		<module>bgprouter</module>
+		<module>features</module>
+		<module>atrium-artifacts</module>
+		<module>distribution-karaf</module>
+	</modules>
+
+</project>

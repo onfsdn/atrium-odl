@@ -1,0 +1,39 @@
+{
+    "bgpSpeakers": {
+        "bgpSpeaker": [
+            {
+                "attachmentPort": "1",
+                "macAddress": "aa:bb:cc:dd:ee:ff",
+                "speakerName": "Speaker1",
+                "asNumber": "65000",
+                "attachmentDpId": "openflow:170",
+                "interfaceAddresses": [
+                    {
+                        "of-port-id": "openflow:1:1",
+                        "ipAddress": "192.168.10.101"
+                    },
+                    {
+                        "of-port-id": "openflow:1:2",
+                        "ipAddress": "192.168.20.101"
+                    }
+                ]
+            }
+        ]
+    },
+    "bgpPeers": {
+        "bgpPeer": [
+            {
+            	"peerAddr" : "192.168.10.1",
+                "peerDpId": "openflow:1",
+                "remoteAs": "65001",
+                "peerPort": "1"
+            },
+            {
+            	"peerAddr" : "192.168.20.1",
+                "peerDpId": "openflow:1",
+                "remoteAs": "65002",
+                "peerPort": "2"
+            }
+        ]
+    }
+}

@@ -1,0 +1,82 @@
+/*
+ * Copyright (c) 2015 Wipro Ltd. and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
+module routingservice-api {
+    yang-version 1;
+    namespace "urn:opendaylight:params:xml:ns:yang:routingservice:api";
+    prefix "routingservice-api";
+
+    import ietf-inet-types {
+        prefix inet;
+        revision-date 2010-09-24;
+    }
+
+    import ietf-yang-types {
+        prefix yang;
+        revision-date 2010-09-24;
+    }
+
+
+    import config { prefix config; revision-date 2013-04-05; }
+    
+
+    revision "2015-07-25" {
+        description "Initial revision of routingservice model";
+    }
+
+    identity routingservice-api {
+        base "config:service-type";
+        config:java-class "org.opendaylight.atrium.routingservice.api.RoutingService";
+    }
+    
+	grouping fibEntryGrouping {
+    	description
+      		"FIB Entry";
+	
+		list fibEntry{
+       		
+       		key "prefix";
+			max-elements "unbounded";
+  			min-elements "0";
+  			
+  			leaf prefix {
+	      		description	"The prefix";
+	        	type string;
+	        	mandatory true;
+    		}
+    	
+	    	leaf nextHopIp {
+	      		description	"The next hop IP ";
+	        	type inet:ip-address;
+	        	mandatory true;
+	    	}
+	    	
+	    	leaf nextHopMac {
+	      		description	"The next hop mac address";
+	        	type yang:mac-address;
+	        	mandatory true;        	
+	    	}
+	    	leaf type {
+		    	type enumeration {
+	       			enum UPDATE;
+	       			enum DELETE;
+	       		}
+	       	}
+       	}
+ 	}
+    
+    container fibEntries{
+	    uses fibEntryGrouping;
+    }
+    
+    
+    notification fibUpdate {
+     	description	"Indicates a fib update";
+       	uses fibEntryGrouping;	
+   }
+}
+

@@ -21,7 +21,6 @@
   <name>didm</name> <!-- Used by Sonar to set project name -->
   <packaging>pom</packaging>
   <modelVersion>4.0.0</modelVersion>
-
   <modules>
     <module>identification/api</module>
     <module>identification/impl</module>
@@ -31,10 +30,12 @@
     <module>vendor/mininet/features</module>
     <module>vendor/hp/3800</module>
     <module>vendor/hp/features</module>
-    <module>karaf</module>
     <module>artifacts</module>
     <module>features</module>
     <module>drivers/driver-util</module>
+<!--
+    <module>karaf</module>
+-->
   </modules>
 
   <!-- DO NOT deploy the repo root pom as it's only needed to initiate a build -->

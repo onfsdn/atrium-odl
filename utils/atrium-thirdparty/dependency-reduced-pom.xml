@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>odlparent</artifactId>
+    <groupId>org.opendaylight.odlparent</groupId>
+    <version>1.6.0-SNAPSHOT</version>
+    <relativePath>pom.xml</relativePath>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.opendaylight.atrium</groupId>
+  <artifactId>atrium-thirdparty</artifactId>
+  <packaging>bundle</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <description>ODL Atrium third-party dependencies</description>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <createSourcesJar>true</createSourcesJar>
+          <artifactSet>
+            <excludes>
+              <exclude>com.google.guava:guava</exclude>
+              <exclude>com.esotericsoftware:*</exclude>
+              <exclude>org.ow2.asm:asm</exclude>
+              <exclude>org.objenesis:objenesis</exclude>
+              <exclude>io.netty:*</exclude>
+            </excludes>
+          </artifactSet>
+          <filters>
+            <filter>
+              <artifact>com.googlecode.concurrent-trees:concurrent-trees</artifact>
+              <includes>
+                <include>com/googlecode/**</include>
+              </includes>
+            </filter>
+          </filters>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Export-Package>com.googlecode.concurrenttrees.*</Export-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <properties>
+    <skipTests>true</skipTests>
+    <checkstyle.skip>true</checkstyle.skip>
+  </properties>
+</project>
+

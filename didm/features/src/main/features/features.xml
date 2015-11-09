@@ -29,7 +29,10 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
   </feature>
   <feature name='odl-didm-drivers-api' version='${project.version}' description='OpenDaylight :: didm drivers :: api'>
     <feature version='${ofplugin.version}'>odl-openflowplugin-nsf-model</feature>
+<!--
     <feature version='${ofplugin.version}'>odl-openflowplugin-all-li</feature>
+-->
+    <feature version='${ofplugin.version}'>odl-openflowplugin-all</feature>
     <bundle>mvn:org.opendaylight.didm/didm-drivers-api/${project.version}</bundle>
     <bundle>mvn:org.opendaylight.didm/didm-driver-util/${project.version}</bundle>
   </feature>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2015 Wipro Ltd. All rights reserved. This program and 
+	the accompanying materials are made available under the terms of the Eclipse 
+	Public License v1.0 which accompanies this distribution, and is available 
+	at http://www.eclipse.org/legal/epl-v10.html INTERNAL -->
+<project xmlns="http://maven.aapachepache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>org.opendaylight.atrium</groupId>
+		<artifactId>config-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../../commons/config-parent</relativePath>
+	</parent>
+
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>atriumutil-api</artifactId>
+	<packaging>bundle</packaging>
+	<properties>
+		<checkstyle.skip>true</checkstyle.skip>
+		<skipTests>true</skipTests>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.controller.model</groupId>
+			<artifactId>model-inventory</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.yangtools.model</groupId>
+			<artifactId>ietf-interfaces</artifactId>
+			<version>${ietf.interfaces.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.yangtools.model</groupId>
+			<artifactId>ietf-yang-types</artifactId>
+			<version>${ietf.yang.types.version}</version>
+		</dependency>
+                <dependency>
+                        <groupId>org.opendaylight.yangtools.model</groupId>
+                        <artifactId>ietf-inet-types</artifactId>
+                        <version>${ietf.inet.types.version}</version>
+                </dependency>
+		<dependency>
+			<groupId>org.opendaylight.openflowplugin.model</groupId>
+			<artifactId>model-flow-base</artifactId>
+			<version>${openflowplugin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.openflowplugin.model</groupId>
+			<artifactId>model-flow-service</artifactId>
+			<version>${openflowplugin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty</artifactId>
+			<version>3.8.0.Final</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

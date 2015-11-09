@@ -1,0 +1,52 @@
+/*
+ * Copyright (c) 2015 Wipro Ltd. and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
+module atriumutil-api {
+	yang-version 1;
+    namespace "urn:opendaylight:params:xml:ns:yang:atriumutil:api";
+    prefix "atriumutil-api";
+
+    import config { prefix config; revision-date 2013-04-05; }
+	
+	import opendaylight-inventory {
+        prefix inv;
+        revision-date 2013-08-19;
+    }
+    
+    import ietf-inet-types {
+        prefix inet;
+        revision-date 2010-09-24;
+    }
+	
+    description
+        "Service definition for atriumutil project";
+
+    revision "2015-07-25" {
+        description
+            "Initial revision";
+    }
+	
+    identity atriumutil-api {
+        base "config:service-type";
+        config:java-class "org.opendaylight.atrium.atriumutil.api.AtriumutilService";
+    }
+    
+    grouping interfaceAddress {
+        description "Interface Address";
+        leaf of-port-id {
+               type inv:node-connector-id;
+               config "true";
+                description "can be a physical switch port or virtual switch port";
+        }
+
+        leaf ipAddress {
+                type inet:ip-address;
+                config "true";
+                description "Local Endpoint IP address";
+        }  
+    }
+}

@@ -1,0 +1,57 @@
+/*
+ * Copyright (c) 2015 Wipro Ltd. and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
+module bgpservice-impl {
+    yang-version 1;
+    namespace "urn:opendaylight:params:xml:ns:yang:bgpservice:impl";
+    prefix "bgpservice-impl";
+
+    import config { prefix config; revision-date 2013-04-05; }
+    import opendaylight-md-sal-binding { prefix mdsal; revision-date 2013-10-28;}
+    import bgpservice-api { prefix bgpservice-api; revision-date 2015-07-25;}
+
+    description
+        "Service definition for bgp stack implementation project";
+
+    revision "2015-07-25" {
+        description
+            "Initial revision";
+    }
+
+    identity bgpservice-impl {
+        base config:module-type;
+        config:provided-service bgpservice-api:bgpservice-api;
+        config:java-name-prefix BgpServiceImpl;
+    }
+
+    augment "/config:modules/config:module/config:configuration" {
+        case bgpservice-impl {
+            when "/config:modules/config:module/config:type = 'bgpservice-impl'";
+            
+            leaf  bgp-port{
+                type uint32;
+            }
+            
+            container broker {
+                uses config:service-ref {
+                    refine type {
+                        mandatory true;     //true or false
+                        config:required-identity mdsal:binding-broker-osgi-registry;
+                    }
+                }
+            }
+            container data-broker {
+                uses config:service-ref {
+                    refine type {
+                        mandatory false;
+                        config:required-identity mdsal:binding-async-data-broker;
+                    }
+                }
+            }
+        }
+    }
+}

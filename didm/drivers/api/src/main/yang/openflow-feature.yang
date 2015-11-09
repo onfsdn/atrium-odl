@@ -107,7 +107,7 @@ module openflow-feature {
                             }
                       }
 
-                      uses action:action; // traffic treatment for the fwd objective.
+                      uses action:action-list; // traffic treatment for the fwd objective.
                     }
                 }
            }

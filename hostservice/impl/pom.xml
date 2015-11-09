@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2015 Wipro Ltd.  All rights reserved.
+This program and the accompanying materials are made available under the
+terms of the Eclipse Public License v1.0 which accompanies this distribution,
+and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+		<groupId>org.opendaylight.atrium</groupId>
+		<artifactId>config-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../../commons/config-parent</relativePath>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>hostservice-impl</artifactId>
+	<packaging>bundle</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>routingservice-api</artifactId>
+			<version>${atrium.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.concurrent-trees</groupId>
+			<artifactId>concurrent-trees</artifactId>
+			<version>2.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty</artifactId>
+			<version>3.8.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>hostservice-api</artifactId>
+			<version>${atrium.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>atriumutil-api</artifactId>
+			<version>${atrium.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.opendaylight.l2switch.packethandler</groupId>
+			<artifactId>packethandler-model</artifactId>
+			<version>${l2switch.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.l2switch.addresstracker</groupId>
+			<artifactId>addresstracker-model</artifactId>
+			<version>${l2switch.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.l2switch.hosttracker</groupId>
+			<artifactId>hosttracker-model</artifactId>
+			<version>${l2switch.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.controller.model</groupId>
+			<artifactId>model-topology</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.yangtools.model</groupId>
+			<artifactId>ietf-topology</artifactId>
+			<version>${ietf.topology.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.controller.model</groupId>
+			<artifactId>model-inventory</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.controller</groupId>
+			<artifactId>liblldp</artifactId>
+			<version>0.9.2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.controller</groupId>
+			<artifactId>sal-binding-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.controller</groupId>
+			<artifactId>sal-binding-api</artifactId>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
