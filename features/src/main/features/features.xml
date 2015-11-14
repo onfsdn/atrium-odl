@@ -27,6 +27,8 @@
 		<bundle>mvn:org.opendaylight.controller.model/model-inventory/${mdsal.version}</bundle>
 		<bundle>mvn:org.opendaylight.l2switch.packethandler/packethandler-model/${l2switch.version}</bundle>
 		<bundle>mvn:org.opendaylight.atrium/atrium-thirdparty/${atrium.version}</bundle>
+		<configfile finalname="configuration/initial/sdnip.json">mvn:org.opendaylight.atrium/atrium-initial-config/${atrium.version}/xml/sdnipconf</configfile>
+		<configfile finalname="configuration/initial/addresses.json">mvn:org.opendaylight.atrium/atrium-initial-config/${atrium.version}/xml/addressesconf</configfile>
 	</feature>
 	<feature name='atrium-utilservice' version='${atrium.version}'
 		description='OpenDaylight :: atrium-utilservice '>

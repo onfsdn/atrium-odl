@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.io.File;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -60,7 +61,7 @@ import com.googlecode.concurrenttrees.radixinverted.InvertedRadixTree;
 public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAwareProvider, AutoCloseable {
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
-	private static final String DEFAULT_CONFIG_FILE = "sdnip.json";
+	private static final String DEFAULT_CONFIG_FILE = "./configuration/initial/sdnip.json";
 
 	private Map<MacAddress, BgpSpeaker> bgpSpeakerMap = new ConcurrentHashMap<>();
 	private Map<IpAddress, BgpPeer> bgpPeerMap = new ConcurrentHashMap<>();
@@ -87,7 +88,18 @@ public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAw
 
 	private void readConfiguration() {
 		log.info("reading configuration");
-		URL configFileUrl = this.getClass().getClassLoader().getResource(DEFAULT_CONFIG_FILE);
+		
+		URL configFileUrl=null;
+		try {
+			configFileUrl = new File(DEFAULT_CONFIG_FILE).toURI().toURL();
+		} catch (Exception ex) {
+			log.error("Error reading configuration file " + DEFAULT_CONFIG_FILE);
+			return;
+		}
+		if(configFileUrl == null) {
+			return;
+		}
+
 		boolean isSuccess = ConfigReader.initialize(configFileUrl);
 		if (isSuccess) {
 			BgpSpeakers bgpSpeakers = ConfigReader.getBgpSpeakers();
@@ -103,7 +115,7 @@ public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAw
 			}
 
 		} else {
-			log.info("Error reading configuration file " + DEFAULT_CONFIG_FILE);
+			log.error("Error reading configuration file " + DEFAULT_CONFIG_FILE);
 		}
 	}
 

@@ -14,6 +14,7 @@
 		<module>commons/binding-parent</module>
 		<module>commons/config-parent</module>
 		<module>utils</module>
+		<module>utils/config</module>
 		<module>routingconfig</module>
 		<module>hostservice</module>
 		<module>bgpservice</module>

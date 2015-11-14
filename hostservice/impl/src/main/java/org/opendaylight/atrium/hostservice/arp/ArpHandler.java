@@ -8,6 +8,7 @@ package org.opendaylight.atrium.hostservice.arp;
 
 import java.net.URL;
 import java.util.List;
+import java.io.File;
 import java.util.concurrent.ExecutionException;
 
 import org.opendaylight.atrium.hostservice.api.ArpMessageAddress;
@@ -42,7 +43,7 @@ public class ArpHandler implements ArpPacketListener {
 	private ArpSender arpSender;
 	private HostService hostService;
 
-	private static final String DEFAULT_CONFIG_FILE = "addresses.json";
+	private static final String DEFAULT_CONFIG_FILE = "./configuration/initial/addresses.json";
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -54,14 +55,25 @@ public class ArpHandler implements ArpPacketListener {
 
 	public void readConfiguration() {
 		log.info("reading configuration");
-		URL configFileUrl = this.getClass().getClassLoader().getResource(DEFAULT_CONFIG_FILE);
+		
+        URL configFileUrl=null;
+        try {
+                configFileUrl = new File(DEFAULT_CONFIG_FILE).toURI().toURL();
+        } catch (Exception ex) {
+                log.error("Error reading configuration file " + DEFAULT_CONFIG_FILE);
+                return;
+        }
+        if(configFileUrl == null) {
+                return;
+        }
+
 		boolean isSuccess = ConfigReader.initialize(configFileUrl);
 		if (isSuccess) {
 			Addresses arpAddresses = ConfigReader.getArpAddresses();
 			ConfigWriter.writeBgpConfigData(dataBroker, arpAddresses);
 
 		} else {
-			log.info("Error reading configuration file " + DEFAULT_CONFIG_FILE);
+			log.error("Error reading configuration file " + DEFAULT_CONFIG_FILE);
 		}
 	}
 

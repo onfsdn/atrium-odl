@@ -210,6 +210,11 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>atrium-initial-config</artifactId>
+			<version>${atrium.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>hostservice-impl</artifactId>
 			<version>${atrium.version}</version>
 			<classifier>config</classifier>
@@ -217,10 +222,24 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>atrium-initial-config</artifactId>
+			<version>${atrium.version}</version>
+			<type>xml</type>
+			<classifier>sdnipconf</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>atrium-initial-config</artifactId>
+			<version>${atrium.version}</version>
+			<type>xml</type>
+			<classifier>addressesconf</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>routingservice-impl</artifactId>
 			<version>${atrium.version}</version>
-			<classifier>config</classifier>
 			<type>xml</type>
+			<classifier>config</classifier>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
