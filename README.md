@@ -11,6 +11,7 @@ Start Karaf by ./karaf clean
 Install features:
 -----------------
 Please follow the correct order as given below
+
 1) feature:install odl-l2switch-all
 
 2) feature:install odl-didm-all
