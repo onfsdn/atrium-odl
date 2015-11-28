@@ -32,7 +32,7 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h3>
-<a id="Atrium" class="anchor" href="#Atrium" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+<a id="Atrium" class="anchor" href="#Atrium" aria-hidden="true"><span class="octicon octicon-link"></span></a>Atrium</h3>
 
 <p>
 
@@ -53,47 +53,60 @@
 </p>
 
 <h3>
-<a id="Install Features" class="anchor" href="#Install Fettures" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<a id="Install Features" class="anchor" href="#Install Fettures" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install Features</h3>
 
 <p>
 
   Please follow the correct order as given below
-
+</p>
+  <p>
 1) feature:install odl-l2switch-all
-
+</p>
+  <p>
 2) feature:install odl-didm-all
-
+</p>
+  <p>
 3) feature:install odl-atrium-all
-
+</p>
+  <p>
 If dlux UI + RESTCONF web interface is required, please add following features as well in the order given
-
-
-  <pre><code>
+</p>
+  
+<p>
+  <code>
         feature:install odl-restconf odl-l2switch-switch odl-mdsal-apidocs odl-dlux-core
-  </pre> </code>
+  </code>
 </p>
 
 <h3>
-<a id="Setting up test environment" class="anchor" href="#Setting up test environment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<a id="Setting up test environment" class="anchor" href="#Setting up test environment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setting up test environment</h3>
 
 <p>
 
   1) Copy Atrium Release A VM from https://dl.orangedox.com/TfyGqd73qtcm3lhuaZ/Atrium_2015_A.ova
-
+  </p>
+  <p>
   2) Start the VM and login as admin/bgprouter
-
+  </p>
+  <p>
   3) Stop ONOS service using command 'onos-service localhost stop'
-
+</p>
+<p>
   4) Copy the distribution zip/tar file generated after building the source code from distribution-karaf folder to the VM
-
+</p>
+  <p>
   5) Unzip the distribution package and run ODL as described above.
-
+</p>
+  <p>
   6) Start Karaf : Go to /bin , and run ./karaf clean
-
+</p>
+  <p>
   7) Install features as suggested above
-
+</p>
+  <p>
   8) Verify the configurations (sdnip.json and addresses.json) in /configuration/initial
-
+</p>
+  <p>
   9) Setup the topology (in a new shell) by running 'sudo router-test.py'
 
 </p>
