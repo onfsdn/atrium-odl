@@ -42,6 +42,7 @@ import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ethernet.rev140528.e
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ipv4.rev140528.Ipv4PacketListener;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ipv4.rev140528.Ipv4PacketReceived;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ipv4.rev140528.ipv4.packet.received.packet.chain.packet.Ipv4Packet;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ipv4.rev140528.KnownIpProtocols;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.TransmitPacketInput;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.TransmitPacketInputBuilder;
@@ -230,7 +231,8 @@ public class TunnellingConnectivityManager implements Ipv4PacketListener {
 		try {
 			TCPHeader header = TCPHeader.decodeTCPHeader(payload, offset);
 
-			if (header.getSourcePort() == BGP_PORT || header.getDestinationPort() == BGP_PORT) {
+			if (header.getSourcePort() == BGP_PORT || header.getDestinationPort() == BGP_PORT || 
+			    ipv4Packet.getProtocol() == KnownIpProtocols.Icmp) {
 				/*
 				 * TODO : Identify the egressNodeconnector of DP/CP
 				 */
@@ -250,8 +252,6 @@ public class TunnellingConnectivityManager implements Ipv4PacketListener {
 				if (ingressNodeId.equals(bgpSpeaker.getAttachmentDpId())
 						&& ingressPort.equals(bgpSpeaker.getAttachmentPort())) {
 					BgpPeer bgpPeer = configService.getBgpPeerByIpAddress(new IpAddress(dstAddress));
-					// To debug
-					// till here debug
 					egressNodeConnectorRef = AtriumUtils.getNodeConnRef(bgpPeer.getPeerDpId(), bgpPeer.getPeerPort());
 				}
 
@@ -264,7 +264,9 @@ public class TunnellingConnectivityManager implements Ipv4PacketListener {
 				}
 
 				sendPacketOut(payload, egressNodeConnectorRef);
-			}
+			} 
+
+			 
 
 		} catch (TCPDecodeException e) {
 			e.printStackTrace();

@@ -13,7 +13,6 @@ module routingconfig-impl {
     import config { prefix config; revision-date 2013-04-05; }
     import opendaylight-md-sal-binding { prefix mdsal; revision-date 2013-10-28;}
     import routingconfig-api { prefix routingconfig-api; revision-date 2015-07-25;}
-	import hostservice-api { prefix hostservice-api; revision-date 2015-07-25;}
 	
     description
         "Service definition for routingconfig project";

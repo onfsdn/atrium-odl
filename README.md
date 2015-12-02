@@ -10,17 +10,36 @@ Start Karaf by ./karaf clean
 
 Install features:
 -----------------
-feature:install odl-l2switch-all,
-feature:install odl-didm-all,
-feature:install odl-atrium-all
+Please follow the correct order as given below
+
+1) feature:install odl-l2switch-all
+
+2) feature:install odl-didm-all
+
+3) feature:install odl-atrium-all
+
+If dlux UI + RESTCONF web interface is required, please add following features as well in the order given 
+
+feature:install odl-restconf odl-l2switch-switch odl-mdsal-apidocs odl-dlux-core
 
 Setting up test environment 
 ---------------------------
 1) Copy Atrium Release A VM from https://dl.orangedox.com/TfyGqd73qtcm3lhuaZ/Atrium_2015_A.ova 
+
 2) Start the VM and login as admin/bgprouter 
+
 3) Stop ONOS service using command 'onos-service localhost stop'
+
 4) Copy the distribution zip/tar file generated after building the source code from distribution-karaf folder to the VM 
+
 5) Unzip the distribution package and run ODL as described above. 
-6) Setup the topology (in a new shell) by running 'sudo router-test.py' 
+
+6) Start Karaf : Go to <odl distribution folder>/bin , and run ./karaf clean
+
+7) Install features as suggested above 
+
+8) Verify the configurations (sdnip.json and addresses.json) in <distribution folder>/configuration/initial
+
+9) Setup the topology (in a new shell) by running 'sudo router-test.py' 
 
 
