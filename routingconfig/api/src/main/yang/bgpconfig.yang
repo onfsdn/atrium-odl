@@ -62,14 +62,6 @@ module bgpconfig {
 		        type string;
 	
 	        }
-	        
-	        leaf asNumber {
-	        	description "Specifies the AS number of the speaker.";
-            	config "true";
-            	type string {
-	              length "1..11";
-	            }
-	         }
 	         
 	         leaf attachmentDpId {
 	         	description "Specifies the node id of the DP switch";
@@ -115,15 +107,7 @@ module bgpconfig {
             	type inet:ip-address;
             	mandatory true;
         	}
-        	
-        	leaf remoteAs {
-            	description "Specifies the AS number of the peer.";
-            	config "true";
-            	type string {
-             		length "1..11";
-             	}
-            }
-            
+        	            
 	        leaf peerDpId {
 	        	description "Specifies the node id of the peer switch";
 	        	config "true" ;

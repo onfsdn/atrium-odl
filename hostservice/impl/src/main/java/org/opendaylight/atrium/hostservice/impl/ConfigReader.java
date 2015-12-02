@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.opendaylight.atrium.atriumutil.AtriumUtils;
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924.IpAddress;
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924.Ipv4Address;
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.yang.types.rev100924.MacAddress;
@@ -67,19 +68,32 @@ public class ConfigReader {
 			AddressBuilder addressBuilder = new AddressBuilder();
 			JsonNode addressElementNode = addressesNodeIterator.next();
 
-			String dpid = addressElementNode.path("dpid").asText();
+			String hexDpid = addressElementNode.path("dpid").asText();
+			String dpid = AtriumUtils.hexDpidStringToOpenFlowDpid(hexDpid);
 			NodeConnectorId port = new NodeConnectorId(addressElementNode.path("port").asText());
 
 			MacAddress mac = new MacAddress(addressElementNode.path("mac").asText());
-			short vlan = (short)addressElementNode.path("vlan").asLong();
-			IpAddress ips = new IpAddress(new Ipv4Address(addressElementNode.path("ips").asText().split("/")[0]));
-			AddressKey addressKey = new AddressKey(ips);
 
+			JsonNode ipsJsonNode = addressElementNode.path("ips");
+			Iterator<JsonNode> ipsJsonNodeIterator = ipsJsonNode.elements();
+
+			IpAddress ips = null;
+			if (ipsJsonNodeIterator.hasNext()) {
+				JsonNode ipJsonNode = ipsJsonNodeIterator.next();
+				ips = new IpAddress(new Ipv4Address(ipJsonNode.asText().split("/")[0]));
+			}
+
+			short vlan = (short) addressElementNode.path("vlan").asLong();
+			if (vlan == 0) {
+				vlan = 1;
+			}
+
+			AddressKey addressKey = new AddressKey(ips);
 			addressBuilder.setDpid(dpid);
 			addressBuilder.setOfPortId(port);
 			addressBuilder.setMac(mac);
-			addressBuilder.setVlan(vlan);
 			addressBuilder.setIpAddress(ips);
+			addressBuilder.setVlan(vlan);
 			addressBuilder.setKey(addressKey);
 
 			addressList.add(addressBuilder.build());

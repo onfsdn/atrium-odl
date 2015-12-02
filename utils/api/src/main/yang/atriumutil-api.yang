@@ -37,6 +37,7 @@ module atriumutil-api {
     
     grouping interfaceAddress {
         description "Interface Address";
+        
         leaf of-port-id {
                type inv:node-connector-id;
                config "true";

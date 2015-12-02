@@ -88,15 +88,15 @@ public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAw
 
 	private void readConfiguration() {
 		log.info("reading configuration");
-		
-		URL configFileUrl=null;
+
+		URL configFileUrl = null;
 		try {
 			configFileUrl = new File(DEFAULT_CONFIG_FILE).toURI().toURL();
 		} catch (Exception ex) {
 			log.error("Error reading configuration file " + DEFAULT_CONFIG_FILE);
 			return;
 		}
-		if(configFileUrl == null) {
+		if (configFileUrl == null) {
 			return;
 		}
 

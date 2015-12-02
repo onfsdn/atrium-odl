@@ -357,4 +357,10 @@ public class AtriumUtils {
 		}
 	}
 
+	public static String hexDpidStringToOpenFlowDpid(String values) {
+		long longValue = new BigInteger(values.replaceAll(":", ""), 16).longValue();
+		String ofDpid = "openflow:" + longValue;
+		return ofDpid;
+	}
+
 }

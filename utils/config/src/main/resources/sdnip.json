@@ -1,39 +1,34 @@
 {
-    "bgpSpeakers": {
-        "bgpSpeaker": [
-            {
-                "attachmentPort": "1",
-                "macAddress": "aa:bb:cc:dd:ee:ff",
-                "speakerName": "Speaker1",
-                "asNumber": "65000",
-                "attachmentDpId": "openflow:170",
-                "interfaceAddresses": [
-                    {
-                        "of-port-id": "openflow:1:1",
-                        "ipAddress": "192.168.10.101"
-                    },
-                    {
-                        "of-port-id": "openflow:1:2",
-                        "ipAddress": "192.168.20.101"
-                    }
-                ]
-            }
-        ]
-    },
-    "bgpPeers": {
-        "bgpPeer": [
-            {
-            	"peerAddr" : "192.168.10.1",
-                "peerDpId": "openflow:1",
-                "remoteAs": "65001",
-                "peerPort": "1"
-            },
-            {
-            	"peerAddr" : "192.168.20.1",
-                "peerDpId": "openflow:1",
-                "remoteAs": "65002",
-                "peerPort": "2"
-            }
-        ]
-    }
+    "bgpPeers" : [
+        {
+            "attachmentDpid" : "00:00:00:00:00:00:00:01",
+	    	"attachmentPort" : "1",
+            "ipAddress" : "192.168.10.1"
+        },
+		{
+            "attachmentDpid" : "00:00:00:00:00:00:00:02",
+	    	"attachmentPort" : "2",
+            "ipAddress" : "192.168.20.1"
+        }
+    ],
+    "bgpSpeakers" : [
+        {
+            "name" : "Speaker1",
+            "attachmentDpid" : "00:00:00:00:00:00:00:aa",
+            "attachmentPort" : "1",
+            "macAddress" : "aa:bb:cc:dd:ee:ff",
+            "interfaceAddresses" : [
+                {
+		    		"interfaceDpid" : "00:00:00:00:00:00:00:01",
+		    		"interfacePort" : "1",
+                    "ipAddress" : "192.168.10.101"
+                },
+                {
+		    		"interfaceDpid" : "00:00:00:00:00:00:00:01",
+		    		"interfacePort" : "2",
+                    "ipAddress" : "192.168.20.101"
+                }
+            ]
+        }
+    ]
 }

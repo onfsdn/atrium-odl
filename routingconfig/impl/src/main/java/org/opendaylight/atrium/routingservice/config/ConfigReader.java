@@ -13,9 +13,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.opendaylight.atrium.atriumutil.AtriumUtils;
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924.IpAddress;
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924.Ipv4Address;
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.yang.types.rev100924.MacAddress;
@@ -69,8 +69,7 @@ public class ConfigReader {
 		}
 
 		JsonNode bgpSpeakersJsonNode = rootJsonNode.path("bgpSpeakers");
-		JsonNode bgpSpeakerJsonNode = bgpSpeakersJsonNode.path("bgpSpeaker");
-		Iterator<JsonNode> bgpSpeakerNodeIterator = bgpSpeakerJsonNode.elements();
+		Iterator<JsonNode> bgpSpeakerNodeIterator = bgpSpeakersJsonNode.elements();
 
 		BgpSpeakersBuilder bgpSpeakersBuilder = new BgpSpeakersBuilder();
 		List<BgpSpeaker> bgpSpeakerList = new ArrayList<BgpSpeaker>();
@@ -79,11 +78,13 @@ public class ConfigReader {
 			BgpSpeakerBuilder bgpSpeakerBuilder = new BgpSpeakerBuilder();
 			JsonNode speakerElementNode = bgpSpeakerNodeIterator.next();
 
+			String speakerName = speakerElementNode.path("name").asText();
+			String ofAttachmentDpId = AtriumUtils
+					.hexDpidStringToOpenFlowDpid(speakerElementNode.path("attachmentDpid").asText());
 			long attachmentPort = speakerElementNode.path("attachmentPort").asLong();
 			MacAddress macAddress = new MacAddress(speakerElementNode.path("macAddress").asText());
-			String speakerName = speakerElementNode.path("speakerName").asText();
-			String asNumber = speakerElementNode.path("asNumber").asText();
-			NodeId attachmentDpId = new NodeId(speakerElementNode.path("attachmentDpId").asText());
+
+			NodeId attachmentDpId = new NodeId(ofAttachmentDpId);
 			List<InterfaceAddresses> interfaceAddressesList = new ArrayList<InterfaceAddresses>();
 			BgpSpeakerKey bgpSpeakerKey = new BgpSpeakerKey(macAddress);
 
@@ -92,8 +93,11 @@ public class ConfigReader {
 				InterfaceAddressesBuilder interfaceAddressesBuilder = new InterfaceAddressesBuilder();
 				JsonNode interfaceElementNode = interfaceAddressesIterator.next();
 
+				String ofNode = AtriumUtils
+						.hexDpidStringToOpenFlowDpid(interfaceElementNode.path("interfaceDpid").asText());
+				String nodeConnectorString = ofNode + ":" + interfaceElementNode.path("interfacePort").asText();
 				IpAddress ipAddress = new IpAddress(new Ipv4Address(interfaceElementNode.path("ipAddress").asText()));
-				NodeConnectorId of_port_id = new NodeConnectorId(interfaceElementNode.path("of-port-id").asText());
+				NodeConnectorId of_port_id = new NodeConnectorId(nodeConnectorString);
 
 				InterfaceAddressesKey addressesKey = new InterfaceAddressesKey(of_port_id);
 
@@ -106,7 +110,6 @@ public class ConfigReader {
 			bgpSpeakerBuilder.setAttachmentPort(attachmentPort);
 			bgpSpeakerBuilder.setMacAddress(macAddress);
 			bgpSpeakerBuilder.setSpeakerName(speakerName);
-			bgpSpeakerBuilder.setAsNumber(asNumber);
 			bgpSpeakerBuilder.setAttachmentDpId(attachmentDpId);
 			bgpSpeakerBuilder.setInterfaceAddresses(interfaceAddressesList);
 			bgpSpeakerBuilder.setKey(bgpSpeakerKey);
@@ -124,8 +127,7 @@ public class ConfigReader {
 		}
 
 		JsonNode bgpPeersJsonNode = rootJsonNode.path("bgpPeers");
-		JsonNode bgpPeerJsonNode = bgpPeersJsonNode.path("bgpPeer");
-		Iterator<JsonNode> bgpPeerNodeIterator = bgpPeerJsonNode.elements();
+		Iterator<JsonNode> bgpPeerNodeIterator = bgpPeersJsonNode.elements();
 
 		BgpPeersBuilder bgpPeersBuilder = new BgpPeersBuilder();
 		List<BgpPeer> bgpPeerList = new ArrayList<BgpPeer>();
@@ -134,16 +136,15 @@ public class ConfigReader {
 			BgpPeerBuilder bgpPeerBuilder = new BgpPeerBuilder();
 			JsonNode peerElementNode = bgpPeerNodeIterator.next();
 
-			IpAddress peerAddr = new IpAddress(new Ipv4Address(peerElementNode.path("peerAddr").asText()));
-			NodeId peerDpId = new NodeId(peerElementNode.path("peerDpId").asText());
-			Long peerPort = peerElementNode.path("peerPort").asLong();
-			String remoteAs = peerElementNode.path("remoteAs").asText();
+			IpAddress peerAddr = new IpAddress(new Ipv4Address(peerElementNode.path("ipAddress").asText()));
+			String ofDpId = AtriumUtils.hexDpidStringToOpenFlowDpid(peerElementNode.path("attachmentDpid").asText());
+			NodeId peerDpId = new NodeId(ofDpId);
+			Long peerPort = peerElementNode.path("attachmentPort").asLong();
 			BgpPeerKey peerKey = new BgpPeerKey(peerAddr);
 
 			bgpPeerBuilder.setPeerAddr(peerAddr);
 			bgpPeerBuilder.setPeerDpId(peerDpId);
 			bgpPeerBuilder.setPeerPort(peerPort);
-			bgpPeerBuilder.setRemoteAs(remoteAs);
 			bgpPeerBuilder.setKey(peerKey);
 
 			bgpPeerList.add(bgpPeerBuilder.build());
