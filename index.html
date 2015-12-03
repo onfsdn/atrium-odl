@@ -1,146 +1,80 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="ATRIUM Project Site : Atrium is an integrated vertical stack for SDN deployment">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>ATRIUM Project Site</title>
+    <meta charset="UTF-8">
+    <title>ATRIUM Project Site by openflowsdn</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">ATRIUM Project Site</h1>
+      <h2 class="project-tagline">Atrium is an integrated vertical stack for SDN deployment</h2>
+      <a href="https://github.com/openflowsdn/atrium" class="btn">View on GitHub</a>
+      <a href="https://github.com/openflowsdn/atrium/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/openflowsdn/atrium/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/OpenNetworkingFoundation/ATRIUM">View on GitHub</a>
+    <section class="main-content">
+      <h1>
+<a id="atrium" class="anchor" href="#atrium" aria-hidden="true"><span class="octicon octicon-link"></span></a>Atrium</h1>
 
-          <h1 id="project_title">ATRIUM Project Site</h1>
-          <h2 id="project_tagline">Atrium is an integrated vertical stack for SDN deployment</h2>
+<p>Atrium is an integrated vertical stack for SDN deployment</p>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/OpenNetworkingFoundation/ATRIUM/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/OpenNetworkingFoundation/ATRIUM/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+<p>Steps to Build &amp; Run :
+Build : mvn clean install -DskipTests=true</p>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a id="Atrium" class="anchor" href="#Atrium" aria-hidden="true"><span class="octicon octicon-link"></span></a>Atrium</h3>
+<p>Run:
+Go to distribution-karaf/target/assembly/bin
+Start Karaf by ./karaf clean</p>
 
-<p>
+<h2>
+<a id="install-features" class="anchor" href="#install-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install features:</h2>
 
-  Atrium is an integrated vertical stack for SDN deployment.
-</p>
-<p>
-  Steps to Build & Run :
-</p>
-<p>
-       Build :
-       <code>
-       mvn clean install -DskipTests=true
-      </code>
-</p>
-<p>
-   Run: Go to distribution-karaf/target/assembly/bin Start Karaf by ./karaf clean
+<p>Please follow the correct order as given below</p>
 
-</p>
+<p>1) feature:install odl-l2switch-all</p>
 
-<h3>
-<a id="Install Features" class="anchor" href="#Install Fettures" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install Features</h3>
+<p>2) feature:install odl-didm-all</p>
 
-<p>
+<p>3) feature:install odl-atrium-all</p>
 
-  Please follow the correct order as given below
-</p>
-  <p>
-1) feature:install odl-l2switch-all
-</p>
-  <p>
-2) feature:install odl-didm-all
-</p>
-  <p>
-3) feature:install odl-atrium-all
-</p>
-  <p>
-If dlux UI + RESTCONF web interface is required, please add following features as well in the order given
-</p>
-  
-<p>
-  <code>
-        feature:install odl-restconf odl-l2switch-switch odl-mdsal-apidocs odl-dlux-core
-  </code>
-</p>
+<p>If dlux UI + RESTCONF web interface is required, please add following features as well in the order given </p>
 
-<h3>
-<a id="Setting up test environment" class="anchor" href="#Setting up test environment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setting up test environment</h3>
+<p>feature:install odl-restconf odl-l2switch-switch odl-mdsal-apidocs odl-dlux-core</p>
 
-<p>
+<h2>
+<a id="setting-up-test-environment-" class="anchor" href="#setting-up-test-environment-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setting up test environment </h2>
 
-  1) Copy Atrium Release A VM from <a href="https://dl.orangedox.com/TfyGqd73qtcm3lhuaZ/Atrium_2015_A.ova">https://dl.orangedox.com/TfyGqd73qtcm3lhuaZ/Atrium_2015_A.ova</a>.
-  </p>
-  <p>
-  2) Start the VM and login as admin/bgprouter
-  </p>
-  <p>
-  3) Stop ONOS service using command 'onos-service localhost stop'
-</p>
-<p>
-  4) Copy the distribution zip/tar file generated after building the source code from distribution-karaf folder to the VM
-</p>
-  <p>
-  5) Unzip the distribution package and run ODL as described above.
-</p>
-  <p>
-  6) Start Karaf : Go to /bin , and run ./karaf clean
-</p>
-  <p>
-  7) Install features as suggested above
-</p>
-  <p>
-  8) Verify the configurations (sdnip.json and addresses.json) in /configuration/initial
-</p>
-  <p>
-  9) Setup the topology (in a new shell) by running 'sudo router-test.py'
+<p>1) Copy Atrium Release A VM from <a href="https://dl.orangedox.com/TfyGqd73qtcm3lhuaZ/Atrium_2015_A.ova">https://dl.orangedox.com/TfyGqd73qtcm3lhuaZ/Atrium_2015_A.ova</a> </p>
 
-</p>
+<p>2) Start the VM and login as admin/bgprouter </p>
 
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-<p>
-  <a href="http://github.com/harshawasthi90" class="user-mention">@Harsh Awasthi</a>
-</p>
+<p>3) Stop ONOS service using command 'onos-service localhost stop'</p>
 
-<p>
-  <a href="https://github.com/mknair75" class="user-mention">@Manoj Nair</a>
-</p>
+<p>4) Copy the distribution zip/tar file generated after building the source code from distribution-karaf folder to the VM </p>
 
-<p>
-  <a href="https://github.com/subh007" class="user-mention">@Subhash Kumar Singh</a>
-</p>
+<p>5) Unzip the distribution package and run ODL as described above. </p>
 
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p>6) Start Karaf : Go to /bin , and run ./karaf clean</p>
 
-<p>For any issue or query send mail to <a href="mailto:atrium_eng@groups.opensourcesdn.org">atrium_eng@groups.opensourcesdn.org</a>.</p>
-      </section>
-    </div>
+<p>7) Install features as suggested above </p>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">ATRIUM Project Site maintained by <a href="https://github.com/OpenNetworkingFoundation">OpenNetworkingFoundation</a></p>
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+<p>8) Verify the configurations (sdnip.json and addresses.json) in /configuration/initial</p>
+
+<p>9) Setup the topology (in a new shell) by running 'sudo router-test.py' </p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/openflowsdn/atrium">ATRIUM Project Site</a> is maintained by <a href="https://github.com/openflowsdn">openflowsdn</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
 
+    </section>
 
-
+  
   </body>
 </html>
