@@ -14,8 +14,9 @@ import org.opendaylight.atrium.atriumutil.IpAddress;
 import org.opendaylight.atrium.routingservice.config.api.RoutingConfigService;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.address.tracker.rev140617.address.node.connector.Addresses;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.hostservice.api.rev150725.HostId;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.hostservice.api.rev150725.address.node.connector.ConnectorAddress;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -87,7 +88,7 @@ public interface HostService {
      * @param ip address to be resolved 
      * @return Address for the ip
      */
-    public Addresses getAddressByIp(IpAddress ip);
+    public ConnectorAddress getAddressByIp(IpAddress ip);
 
     /**
      * Gets the MAC address instead of Host based on ARP resolution 

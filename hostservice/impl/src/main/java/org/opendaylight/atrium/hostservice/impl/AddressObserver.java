@@ -9,13 +9,11 @@ package org.opendaylight.atrium.hostservice.impl;
 
 import java.math.BigInteger;
 import java.util.Date;
+
 import org.opendaylight.controller.sal.binding.api.NotificationService;
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924.IpAddress;
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924.Ipv4Address;
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.yang.types.rev100924.MacAddress;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.address.tracker.rev140617.address.node.connector.Addresses;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.address.tracker.rev140617.address.node.connector.AddressesBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.address.tracker.rev140617.address.node.connector.AddressesKey;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.inventory.rev130819.NodeConnectorRef;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.arp.rev140528.ArpPacketListener;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.arp.rev140528.ArpPacketReceived;
@@ -31,6 +29,9 @@ import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ipv4.rev140528.ipv4.
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ipv6.rev140528.Ipv6PacketListener;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ipv6.rev140528.Ipv6PacketReceived;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ipv6.rev140528.ipv6.packet.received.packet.chain.packet.Ipv6Packet;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.hostservice.api.rev150725.address.node.connector.ConnectorAddress;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.hostservice.api.rev150725.address.node.connector.ConnectorAddressBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.hostservice.api.rev150725.address.node.connector.ConnectorAddressKey;
 
 /**
  * A Simple Address Observer based on l2switch address observer.
@@ -40,11 +41,11 @@ public class AddressObserver implements ArpPacketListener, Ipv4PacketListener, I
 	private final String IPV4_IP_TO_IGNORE = "0.0.0.0";
 	private final String IPV6_IP_TO_IGNORE = "0:0:0:0:0:0:0:0";
 
-	private HostMonitor hostTrackerImpl;
+	private HostMonitor hostMonitor;
 	private NotificationService notificationService;
 
 	public AddressObserver(HostMonitor hostTrackerImpl, NotificationService notificationService) {
-		this.hostTrackerImpl = hostTrackerImpl;
+		this.hostMonitor = hostTrackerImpl;
 		this.notificationService = notificationService;
 
 	}
@@ -83,12 +84,12 @@ public class AddressObserver implements ArpPacketListener, Ipv4PacketListener, I
 		if (arpPacket.getProtocolType().equals(KnownEtherType.Ipv4)) {
 			ipAddress = new IpAddress(new Ipv4Address(arpPacket.getSourceProtocolAddress()));
 		}
-		Addresses addrs = createAddresses(sourceMac, vlanId, ipAddress, ethernetPacket.getEthertype());
+		ConnectorAddress addrs = createAddresses(sourceMac, vlanId, ipAddress, ethernetPacket.getEthertype());
 		if (addrs == null) {
 			return;
 		}
 		NodeConnectorRef ingress = rawPacket.getIngress();
-		hostTrackerImpl.packetReceived(addrs, ingress.getValue());
+		hostMonitor.packetReceived(addrs, ingress.getValue());
 	}
 
 	@Override
@@ -124,12 +125,12 @@ public class AddressObserver implements ArpPacketListener, Ipv4PacketListener, I
 		MacAddress sourceMac = ethernetPacket.getSourceMac();
 		IpAddress ipAddress = new IpAddress(ipv4Packet.getSourceIpv4());
 
-		Addresses addrs = createAddresses(sourceMac, vlanId, ipAddress, ethernetPacket.getEthertype());
+		ConnectorAddress addrs = createAddresses(sourceMac, vlanId, ipAddress, ethernetPacket.getEthertype());
 		if (addrs == null) {
 			return;
 		}
 		NodeConnectorRef ingress = rawPacket.getIngress();
-		hostTrackerImpl.packetReceived(addrs, ingress.getValue());
+		hostMonitor.packetReceived(addrs, ingress.getValue());
 	}
 
 	@Override
@@ -164,17 +165,17 @@ public class AddressObserver implements ArpPacketListener, Ipv4PacketListener, I
 		MacAddress sourceMac = ethernetPacket.getSourceMac();
 		IpAddress ipAddress = new IpAddress(ipv6Packet.getSourceIpv6());
 
-		Addresses addrs = createAddresses(sourceMac, vlanId, ipAddress, ethernetPacket.getEthertype());
+		ConnectorAddress addrs = createAddresses(sourceMac, vlanId, ipAddress, ethernetPacket.getEthertype());
 		if (addrs == null) {
 			return;
 		}
 		NodeConnectorRef ingress = rawPacket.getIngress();
-		hostTrackerImpl.packetReceived(addrs, ingress.getValue());
+		hostMonitor.packetReceived(addrs, ingress.getValue());
 	}
 
-	private Addresses createAddresses(MacAddress srcMacAddr, VlanId vlanId, IpAddress srcIpAddr,
+	private ConnectorAddress createAddresses(MacAddress srcMacAddr, VlanId vlanId, IpAddress srcIpAddr,
 			KnownEtherType ketype) {
-		AddressesBuilder addrs = new AddressesBuilder();
+		ConnectorAddressBuilder addrs = new ConnectorAddressBuilder();
 		if (srcMacAddr == null || srcIpAddr == null) {
 			return null;
 		}
@@ -187,7 +188,7 @@ public class AddressObserver implements ArpPacketListener, Ipv4PacketListener, I
 		BigInteger id = BigInteger.valueOf(ketype.getIntValue()).abs()
 				.add(BigInteger.valueOf(srcMacAddr.hashCode()).abs().shiftLeft(16));
 		addrs.setId(id);
-		addrs.setKey(new AddressesKey(addrs.getId()));
+		addrs.setKey(new ConnectorAddressKey(addrs.getId()));
 		addrs.setVlan(vlanId);
 		addrs.setIp(srcIpAddr);
 		addrs.setMac(srcMacAddr);

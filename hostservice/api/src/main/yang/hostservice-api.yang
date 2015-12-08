@@ -9,7 +9,12 @@ module hostservice-api {
     yang-version 1;
     namespace "urn:opendaylight:params:xml:ns:yang:hostservice:api";
     prefix "hostservice-api";
-
+	
+	import yang-ext {
+    	prefix ext;
+    	revision-date "2013-07-09";
+  	}
+	
     import ietf-inet-types {
         prefix inet;
         revision-date 2010-09-24;
@@ -19,7 +24,14 @@ module hostservice-api {
         prefix yang;
         revision-date 2010-09-24;
     }
-
+    
+    import ethernet-packet {
+    	prefix ethernet;
+    	revision-date 2014-05-28;
+  	}
+	
+	import network-topology {prefix "topo"; revision-date "2013-10-21"; }
+	
     import config { prefix config; revision-date 2013-04-05; }
 	
     import opendaylight-inventory {
@@ -40,6 +52,11 @@ module hostservice-api {
         base "config:service-type";
         config:java-class "org.opendaylight.atrium.hostservice.api.HostService";
     }
+    
+    typedef host-id {
+        type string;
+    }
+    
     
     container addresses {
         list address{
@@ -63,5 +80,64 @@ module hostservice-api {
 			}
 		}
     }
+    
+    grouping address-node-connector {
+	    list connector-address {
+		      key id;
+		      leaf id {
+		        description "A 64-bit key for this observation. This is opaque and should not be interpreted.";
+		        type uint64;
+		      }
+		      leaf mac {
+		        type yang:mac-address;
+		        description "MAC address";
+		      }
+		      leaf ip {
+		        type inet:ip-address;
+		        description "IPv4 or IPv6 address";
+		      }
+		      leaf vlan {
+		        type ethernet:vlan-id;
+		        description "VLAN id";
+		      }
+		      leaf first-seen {
+		        type int64;
+		        description "Timestamp (number of ms since January 1, 1970, 00:00:00 GMT) of observing this address for the first time";
+		      }
+		      leaf last-seen {
+		        type int64;
+		        description "The most recent timestamp (tnumber of ms since January 1, 1970, 00:00:00 GMT) of observing this address";
+		      }
+	    }
+  	}
+  
+	  grouping host {
+	        description "List of addresses and attachment points";
+	        uses address-node-connector;
+	        leaf id {
+	            type host-id;
+	        }
+	        list attachment-points {
+	            description "the assumption is that all address can be reached at all attachment points";
+	            uses topo:tp-attributes;
+	            key tp-id;
+	            leaf corresponding-tp {
+	                type topo:tp-ref;
+	            }
+	            leaf active {
+	                type boolean;
+	            }
+	        }
+	    }
+
+    augment "/topo:network-topology/topo:topology/topo:node" {
+        ext:augment-identifier "host-node";
+        uses host;
+    }
+
+  augment "/inv:nodes/inv:node/inv:node-connector" {
+    	ext:augment-identifier "address-capable-node-connector";
+    	uses address-node-connector;
+  }
 }
 

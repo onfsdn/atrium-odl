@@ -7,15 +7,15 @@
  */
 package org.opendaylight.atrium.hostservice.api;
 
-import org.opendaylight.yang.gen.v1.urn.opendaylight.address.tracker.rev140617.address.node.connector.Addresses;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.hostservice.api.rev150725.address.node.connector.ConnectorAddress;
 
 public class AddressUpdateEvent {
-    Addresses address;
-    public AddressUpdateEvent(Addresses address) {
+    ConnectorAddress address;
+    public AddressUpdateEvent(ConnectorAddress address) {
         this.address = address;
     }
     
-    public Addresses getAddress() {
+    public ConnectorAddress getAddress() {
         return address;
     }
 }

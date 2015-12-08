@@ -7,7 +7,7 @@
  */
 package org.opendaylight.atrium.hostservice.api;
 
-import org.opendaylight.atrium.hostservice.api.HostId;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.hostservice.api.rev150725.HostId;
 
 /**
  * The listener interface for receiving hostUpdates events.

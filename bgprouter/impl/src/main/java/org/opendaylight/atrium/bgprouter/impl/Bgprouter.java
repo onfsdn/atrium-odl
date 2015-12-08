@@ -96,6 +96,8 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 	// IPv4 ethernet type used in flow match (TODO: AtriumConstants)
 	public static final EthernetType IPV4_ETH_TYPE = new EthernetTypeBuilder()
 			.setType(new EtherType(AtriumConstants.IPv4)).build();
+	public static final EthernetType ARP_ETH_TYPE = new EthernetTypeBuilder()
+			.setType(new EtherType(AtriumConstants.ARP)).build();
 
 	// Constants for setting the prioirty in flows
 	private static final int PRIORITY_OFFSET = 100;
@@ -598,13 +600,43 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 	 */
 	public void processNodeAdd(NodeId dpnId) {
 
+		// s1
 		if (dpnId.equals(ctrlDeviceId)) {
 			connectivityManager.notifySwitchAvailable();
 		}
 
+		// router
 		if (dpnId.equals(deviceId)) {
 			processIntfFilters(true, configService.getInterfaces());
 		}
+
+		addArpFlowToController(dpnId);
+
+	}
+
+	public void addArpFlowToController(NodeId dpnId) {
+
+		NodeRef nodeRef = new NodeRef(
+				InstanceIdentifier.builder(Nodes.class).child(Node.class, new NodeKey(dpnId)).build());
+
+		ForwardingObjectiveBuilder fwdObjBuilder = new ForwardingObjectiveBuilder();
+		fwdObjBuilder.setOperation(Operation.Add);
+		fwdObjBuilder.setFlag(Flag.Versatile);
+		MatchBuilder matchBuilder = new MatchBuilder();
+		EthernetMatch etherMatch = AtriumUtils.getEtherMatch(Bgprouter.ARP_ETH_TYPE);
+		matchBuilder.setEthernetMatch(etherMatch);
+
+		ActionData puntAction = new ActionData(ActionUtils.punt_to_controller, new String[] { null });
+
+		fwdObjBuilder.setMatch(matchBuilder.build());
+		List<Action> actions = new ArrayList<>();
+		actions.add(puntAction.buildAction());
+		fwdObjBuilder.setAction(actions);
+
+		ForwardInputBuilder forwardInputBuilderSrc = new ForwardInputBuilder();
+		forwardInputBuilderSrc.setNode(nodeRef);
+		forwardInputBuilderSrc.setForwardingObjective(fwdObjBuilder.build());
+		flowObjectivesService.forward(forwardInputBuilderSrc.build());
 
 	}
 

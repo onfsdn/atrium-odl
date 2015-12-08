@@ -41,8 +41,8 @@ import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ethernet.rev140528.e
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ethernet.rev140528.ethernet.packet.received.packet.chain.packet.EthernetPacket;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ipv4.rev140528.Ipv4PacketListener;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ipv4.rev140528.Ipv4PacketReceived;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ipv4.rev140528.ipv4.packet.received.packet.chain.packet.Ipv4Packet;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ipv4.rev140528.KnownIpProtocols;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.ipv4.rev140528.ipv4.packet.received.packet.chain.packet.Ipv4Packet;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.TransmitPacketInput;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.TransmitPacketInputBuilder;
@@ -169,12 +169,13 @@ public class TunnellingConnectivityManager implements Ipv4PacketListener {
 		fwdObjBuilder.setFlag(Flag.Versatile);
 		MatchBuilder matchBuilder = new MatchBuilder();
 
-		// set Ethernet type - IPv4
-		EthernetMatch etherMatch = AtriumUtils.getEtherMatch(Bgprouter.IPV4_ETH_TYPE);
+		// set Ethernet type - IPv4 
+		EthernetMatch etherMatch =
+		AtriumUtils.getEtherMatch(Bgprouter.IPV4_ETH_TYPE);
 		matchBuilder.setEthernetMatch(etherMatch);
 
-		// Ip type Match
-		IpMatch ipMatch = AtriumUtils.getIpMatchType();
+		// Ip type Match 
+		IpMatch ipMatch = AtriumUtils.getTcpIpMatchType();
 		matchBuilder.setIpMatch(ipMatch);
 
 		// TCP Src/Dest
@@ -231,8 +232,8 @@ public class TunnellingConnectivityManager implements Ipv4PacketListener {
 		try {
 			TCPHeader header = TCPHeader.decodeTCPHeader(payload, offset);
 
-			if (header.getSourcePort() == BGP_PORT || header.getDestinationPort() == BGP_PORT || 
-			    ipv4Packet.getProtocol() == KnownIpProtocols.Icmp) {
+			if (header.getSourcePort() == BGP_PORT || header.getDestinationPort() == BGP_PORT
+					|| ipv4Packet.getProtocol() == KnownIpProtocols.Icmp) {
 				/*
 				 * TODO : Identify the egressNodeconnector of DP/CP
 				 */
@@ -264,9 +265,7 @@ public class TunnellingConnectivityManager implements Ipv4PacketListener {
 				}
 
 				sendPacketOut(payload, egressNodeConnectorRef);
-			} 
-
-			 
+			}
 
 		} catch (TCPDecodeException e) {
 			e.printStackTrace();
