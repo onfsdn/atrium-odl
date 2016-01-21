@@ -2,6 +2,10 @@
 Atrium is an integrated vertical stack for SDN deployment
 
 Steps to Build & Run :
+
+Please ensure that you follow instructions in following link
+https://wiki.opendaylight.org/view/GettingStarted:Development_Environment_Setup
+
 Build : mvn clean install -DskipTests=true
 
 Run:
@@ -12,15 +16,11 @@ Install features:
 -----------------
 Please follow the correct order as given below
 
-1) feature:install odl-l2switch-all
-
-2) feature:install odl-didm-all
-
-3) feature:install odl-atrium-all
+feature:install odl-atrium-all
 
 If dlux UI + RESTCONF web interface is required, please add following features as well in the order given 
 
-feature:install odl-restconf odl-l2switch-switch odl-mdsal-apidocs odl-dlux-core
+feature:install odl-restconf odl-mdsal-apidocs odl-dlux-core
 
 Setting up test environment 
 ---------------------------
