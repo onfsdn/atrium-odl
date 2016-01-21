@@ -50,6 +50,7 @@ import org.opendaylight.yang.gen.v1.urn.opendaylight.l2.types.rev130827.EtherTyp
 import org.opendaylight.yang.gen.v1.urn.opendaylight.model.match.types.rev131026.ethernet.match.fields.EthernetType;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.model.match.types.rev131026.ethernet.match.fields.EthernetTypeBuilder;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.model.match.types.rev131026.match.EthernetMatch;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.model.match.types.rev131026.match.IpMatch;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.model.match.types.rev131026.match.Layer3Match;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.model.match.types.rev131026.match.VlanMatch;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.model.match.types.rev131026.match.layer._3.match.Ipv4Match;
@@ -603,6 +604,7 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 		// s1
 		if (dpnId.equals(ctrlDeviceId)) {
 			connectivityManager.notifySwitchAvailable();
+			addIcmpFlowToController(dpnId);
 		}
 
 		// router
@@ -625,6 +627,38 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 		MatchBuilder matchBuilder = new MatchBuilder();
 		EthernetMatch etherMatch = AtriumUtils.getEtherMatch(Bgprouter.ARP_ETH_TYPE);
 		matchBuilder.setEthernetMatch(etherMatch);
+
+		ActionData puntAction = new ActionData(ActionUtils.punt_to_controller, new String[] { null });
+
+		fwdObjBuilder.setMatch(matchBuilder.build());
+		List<Action> actions = new ArrayList<>();
+		actions.add(puntAction.buildAction());
+		fwdObjBuilder.setAction(actions);
+
+		ForwardInputBuilder forwardInputBuilderSrc = new ForwardInputBuilder();
+		forwardInputBuilderSrc.setNode(nodeRef);
+		forwardInputBuilderSrc.setForwardingObjective(fwdObjBuilder.build());
+		flowObjectivesService.forward(forwardInputBuilderSrc.build());
+
+	}
+
+	public void addIcmpFlowToController(NodeId dpnId) {
+
+		NodeRef nodeRef = new NodeRef(
+				InstanceIdentifier.builder(Nodes.class).child(Node.class, new NodeKey(dpnId)).build());
+
+		ForwardingObjectiveBuilder fwdObjBuilder = new ForwardingObjectiveBuilder();
+		fwdObjBuilder.setOperation(Operation.Add);
+		fwdObjBuilder.setFlag(Flag.Versatile);
+		MatchBuilder matchBuilder = new MatchBuilder();
+
+		// set Ethernet type - IPv4
+		EthernetMatch etherMatch = AtriumUtils.getEtherMatch(Bgprouter.IPV4_ETH_TYPE);
+		matchBuilder.setEthernetMatch(etherMatch);
+
+		// Ip type Match
+		IpMatch ipMatch = AtriumUtils.getIcmpIpMatchType();
+		matchBuilder.setIpMatch(ipMatch);
 
 		ActionData puntAction = new ActionData(ActionUtils.punt_to_controller, new String[] { null });
 

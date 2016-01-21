@@ -311,6 +311,10 @@ public class AtriumUtils {
 	public static IpMatch getTcpIpMatchType() {
 		return new IpMatchBuilder().setIpProtocol(AtriumConstants.TCP.shortValue()).build();
 	}
+	
+	public static IpMatch getIcmpIpMatchType() {
+		return new IpMatchBuilder().setIpProtocol(AtriumConstants.ICMP.shortValue()).build();
+	}
 
 	public static TcpMatch getTcpMatch(int port, boolean isSrc) {
 		if (isSrc) {

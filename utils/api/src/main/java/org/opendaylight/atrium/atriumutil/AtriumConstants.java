@@ -34,5 +34,8 @@ public class AtriumConstants {
     public static final Long UDP = Long.valueOf(17);
 
     public static final Long SCTP = Long.valueOf(132);
+    
+    public static final Long ICMP= Long.valueOf(1);
+    
 
 }
