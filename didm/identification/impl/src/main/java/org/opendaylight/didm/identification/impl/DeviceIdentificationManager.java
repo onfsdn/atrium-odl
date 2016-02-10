@@ -153,7 +153,9 @@ public class DeviceIdentificationManager implements DataChangeListener, AutoClos
              // TODO: is there a more efficient way to do this?
              for(DeviceTypeInfo dti: dtiInfoList) {
                  // if the manufacturer matches and there is a h/w match
-                 if (manufacturer != null && (manufacturer.equals(dti.getOpenflowManufacturer()))) {
+                 List<String> manufacturers = dti.getOpenflowManufacturer();
+                 
+                 if (manufacturer != null && manufacturers.contains(manufacturer)) {
                      List<String> hardwareValues = dti.getOpenflowHardware();
                      if(hardwareValues != null && hardwareValues.contains(hardware)) {
                              setDeviceType(dti.getDeviceType(), path);
@@ -174,7 +176,7 @@ public class DeviceIdentificationManager implements DataChangeListener, AutoClos
         // 1) check for OF match
         FlowCapableNode flowCapableNode = node.getAugmentation(FlowCapableNode.class);
         checkOFMatch(path,node,flowCapableNode,dtiInfoList);
-        
+
         /*
         // 2) check for sysOID match
         String ipStr = null;

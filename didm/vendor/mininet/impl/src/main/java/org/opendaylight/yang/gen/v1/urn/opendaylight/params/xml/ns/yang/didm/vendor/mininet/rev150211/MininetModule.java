@@ -31,10 +31,11 @@ public class MininetModule extends org.opendaylight.yang.gen.v1.urn.opendaylight
     private static final Logger LOG = LoggerFactory.getLogger(MininetModule.class);
 
     private static final Class<? extends DeviceTypeBase> DEVICE_TYPE = MininetDeviceType.class;
-    private static final String MANUFACTURER = "Nicira, Inc.";
-    private static final List<String> HARDWARE = ImmutableList.of("Open vSwitch");
+    //private static final String MANUFACTURER = "Nicira, Inc.";
+    private static final List<String> HARDWARE = ImmutableList.of("Open vSwitch", "NS1132", "NS1248", "NS2128");
+    private static final List<String> MANUFACTURERS = ImmutableList.of("Nicira, Inc.", "NoviFlow Inc");
     private static final DeviceTypeInfo DEVICE_TYPE_INFO = new DeviceTypeInfoBuilder().setDeviceType(DEVICE_TYPE)
-            .setOpenflowManufacturer(MANUFACTURER)
+            .setOpenflowManufacturer(MANUFACTURERS)
             .setOpenflowHardware(HARDWARE).build();
 
     public MininetModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver) {

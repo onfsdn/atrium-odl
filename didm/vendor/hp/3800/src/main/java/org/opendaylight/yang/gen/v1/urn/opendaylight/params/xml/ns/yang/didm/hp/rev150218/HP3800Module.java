@@ -38,7 +38,7 @@ public class HP3800Module extends org.opendaylight.yang.gen.v1.urn.opendaylight.
     private static final Logger LOG = LoggerFactory.getLogger(HP3800Module.class);
 
     private static final Class<? extends DeviceTypeBase> DEVICE_TYPE = Hp3800DeviceType.class;
-    private static final String MANUFACTURER = "HP";
+    private static final List<String> MANUFACTURERS = ImmutableList.of("HP");
     private static final List<String> HARDWARE = ImmutableList.of("3800-24G-PoE+-2SFP+ Switch",
                                                                   "3800-48G-PoE+-4SFP+ Switch",
                                                                   "3800-24G-2SFP+ Switch",
@@ -60,7 +60,7 @@ public class HP3800Module extends org.opendaylight.yang.gen.v1.urn.opendaylight.
                                                            "1.3.6.1.4.1.11.2.3.7.11.127",
                                                            "1.3.6.1.4.1.11.2.3.7.8.5.2");
     private static final DeviceTypeInfo DEVICE_TYPE_INFO = new DeviceTypeInfoBuilder().setDeviceType(DEVICE_TYPE)
-            .setOpenflowManufacturer(MANUFACTURER)
+            .setOpenflowManufacturer(MANUFACTURERS)
             .setSysoid(sysOIDS)
             .setOpenflowHardware(HARDWARE).build();
 
