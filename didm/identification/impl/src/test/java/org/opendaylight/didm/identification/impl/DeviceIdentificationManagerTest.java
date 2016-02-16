@@ -100,7 +100,7 @@ public class DeviceIdentificationManagerTest {
                 .setDeviceType(expectedDeviceType)
                 .setKey(new DeviceTypeInfoKey(expectedDeviceType))
                 .setOpenflowHardware(Arrays.asList(GOOD_HARDWARE))
-                .setOpenflowManufacturer(GOOD_MANUFACTURER)
+                .setOpenflowManufacturer(ImmutableList.of(GOOD_MANUFACTURER))
                 .setSysoid(ImmutableList.<String>of())
                 .build();
         DeviceTypes deviceTypes = new DeviceTypesBuilder()
@@ -134,7 +134,7 @@ public class DeviceIdentificationManagerTest {
                 .setDeviceType(expectedDeviceType)
                 .setKey(new DeviceTypeInfoKey(expectedDeviceType))
                 .setOpenflowHardware(Arrays.asList(GOOD_HARDWARE))
-                .setOpenflowManufacturer(GOOD_MANUFACTURER)
+                .setOpenflowManufacturer(ImmutableList.of(GOOD_MANUFACTURER))
                 .setSysoid(Arrays.asList(sysOidValue))
                 .build();
         DeviceTypes deviceTypes = new DeviceTypesBuilder()

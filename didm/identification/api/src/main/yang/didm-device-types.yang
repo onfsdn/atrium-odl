@@ -29,9 +29,14 @@ module didm-device-types {
                 description "identifier for a list entry, the device type name.";
             }
 
-            leaf openflow-manufacturer {
+            /* leaf openflow-manufacturer {
                 type string;
                 description "The openflow manufacturer of the device.";
+            } */
+            
+            leaf-list openflow-manufacturer{
+                type string;
+                description "List of manufacturer.";
             }
 
             leaf-list openflow-hardware {
