@@ -42,22 +42,22 @@
 			<version>${atrium.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.opendaylight.yangtools.model</groupId>
+			<groupId>org.opendaylight.mdsal.model</groupId>
 			<artifactId>ietf-yang-types</artifactId>
 			<version>${ietf.yang.types.version}</version> 
 		</dependency>
 		<dependency>
-			<groupId>org.opendaylight.yangtools.model</groupId>
+			<groupId>org.opendaylight.mdsal.model</groupId>
 			<artifactId>ietf-interfaces</artifactId>
 			<version>${ietf.interfaces.version}</version> 
 		</dependency>
 		<dependency>
-			<groupId>org.opendaylight.yangtools.model</groupId>
+			<groupId>org.opendaylight.mdsal.model</groupId>
 			<artifactId>iana-if-type-2014-05-08</artifactId>
 			<version>${iana.if.type.version}</version> 
 		</dependency>
 		<dependency>
-			<groupId>org.opendaylight.yangtools.model</groupId>
+			<groupId>org.opendaylight.mdsal.model</groupId>
 			<artifactId>ietf-inet-types</artifactId>
 			<version>${ietf.inet.types.version}</version>
 		</dependency>

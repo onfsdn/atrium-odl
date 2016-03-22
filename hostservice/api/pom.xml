@@ -35,14 +35,14 @@
 			<artifactId>config-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.opendaylight.yangtools.model</groupId>
+			<groupId>org.opendaylight.mdsal.model</groupId>
 			<artifactId>ietf-inet-types</artifactId>
 			<version>${ietf.inet.types.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.opendaylight.controller</groupId>
 			<artifactId>liblldp</artifactId>
-			<version>0.9.2-SNAPSHOT</version>
+			<version>${liblldp.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.netty</groupId>
