@@ -477,7 +477,7 @@ public class Router implements BindingAwareProvider, AutoCloseable, RoutingServi
 	 * @param routeUpdates
 	 *            the route updates to process
 	 */
-	void processRouteUpdates(Collection<RouteUpdate> routeUpdates) {
+	public void processRouteUpdates(Collection<RouteUpdate> routeUpdates) {
 		synchronized (this) {
 			Collection<IpPrefix> withdrawPrefixes = new LinkedList<>();
 			Collection<AtriumFibUpdate> fibUpdates = new LinkedList<>();

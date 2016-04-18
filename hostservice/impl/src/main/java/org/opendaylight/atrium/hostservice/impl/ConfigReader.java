@@ -83,7 +83,7 @@ public class ConfigReader {
 				ips = new IpAddress(new Ipv4Address(ipJsonNode.asText().split("/")[0]));
 			}
 
-			short vlan = (short) addressElementNode.path("vlan").asLong();
+			int vlan = (int) addressElementNode.path("vlan").asLong();
 			if (vlan == 0) {
 				vlan = 1;
 			}
@@ -93,7 +93,7 @@ public class ConfigReader {
 			addressBuilder.setOfPortId(port);
 			addressBuilder.setMac(mac);
 			addressBuilder.setIpAddress(ips);
-			addressBuilder.setVlan(vlan);
+			addressBuilder.setVlan(new Integer(vlan));
 			addressBuilder.setKey(addressKey);
 
 			addressList.add(addressBuilder.build());

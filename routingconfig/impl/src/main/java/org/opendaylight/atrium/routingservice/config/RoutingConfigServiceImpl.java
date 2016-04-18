@@ -267,7 +267,7 @@ public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAw
 
 			if (dpid.equals(address.getDpid()) && ofPortId.equals(address.getOfPortId().getValue())) {
 				MacAddress mac = address.getMac();
-				VlanId vlanId = VlanId.vlanId(address.getVlan());
+				VlanId vlanId = VlanId.vlanId(address.getVlan().shortValue());
 
 				IpAddress ipAddress = address.getIpAddress();
 				Ip4Address ip4Address = Ip4Address.valueOf(ipAddress.getIpv4Address().getValue());
@@ -337,7 +337,7 @@ public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAw
 			if (peerDpId.equals(addressDpId) && peerPort.equals(addressPort)) {
 
 				MacAddress mac = address.getMac();
-				VlanId vlanId = VlanId.vlanId(address.getVlan());
+				VlanId vlanId = VlanId.vlanId(address.getVlan().shortValue());
 
 				Ip4Address ip4Address = Ip4Address.valueOf(address.getIpAddress().getIpv4Address().getValue());
 
@@ -438,7 +438,7 @@ public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAw
 			}
 
 			MacAddress mac = address.getMac();
-			VlanId vlanId = VlanId.vlanId(address.getVlan());
+			VlanId vlanId = VlanId.vlanId(address.getVlan().shortValue());
 
 			IpAddress ipAddress = address.getIpAddress();
 			Ip4Address ip4Address = Ip4Address.valueOf(ipAddress.getIpv4Address().getValue());
