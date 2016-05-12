@@ -12,6 +12,7 @@ Run:
 Go to distribution-karaf/target/assembly/bin
 Start Karaf by ./karaf clean
 
+
 Install features:
 -----------------
 Please follow the correct order as given below
@@ -42,4 +43,4 @@ Setting up test environment
 
 9) Setup the topology (in a new shell) by running 'sudo router-test.py' 
 
-
+Note: Latest atrium-odl is integrated with bgppcep application in ODL for receiving RIB updates. This configuration is currently placed in atrium-odl/utils/config/src/main/resources/atrium-bgp-config.xml. Here the details of the Quagga BGP Speaker needs to be updated. The existing config file is fine tuned for the test setup mentioned below and will work without any manual instrumentation if the test setup given below is used. This file will be loaded by default to ODL runtime distribution folder etc/opendaylight/karaf directory. 
