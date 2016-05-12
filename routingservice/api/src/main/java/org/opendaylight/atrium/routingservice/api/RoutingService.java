@@ -9,11 +9,9 @@ package org.opendaylight.atrium.routingservice.api;
 
 import java.util.Collection;
 
-import org.opendaylight.atrium.atriumutil.IpAddress;
+import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
 import org.opendaylight.atrium.atriumutil.AtriumMacAddress;
 import org.opendaylight.atrium.hostservice.api.HostService;
-import org.opendaylight.atrium.routingservice.bgp.api.RouteEntry;
-import org.opendaylight.atrium.routingservice.bgp.api.BgpService;
 import org.opendaylight.atrium.routingservice.config.api.RoutingConfigService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.inventory.rev130819.node.NodeConnector;
 
@@ -21,18 +19,12 @@ import org.opendaylight.yang.gen.v1.urn.opendaylight.inventory.rev130819.node.No
  * Provides a way of interacting with the RIB management component.
  */
 public interface RoutingService {
+    
 
     /**
-     * Starts the routing service.
+     * Stops the routing service.
      */
     public void start();
-    
-    
-    /**
-     * Set the service handles which routing service uses 
-     */
-    public void setServices(RoutingConfigService routingConfigService, BgpService bgpService, HostService hostService); 
-    
 
     /**
      * Stops the routing service.
@@ -46,12 +38,6 @@ public interface RoutingService {
      */
     public Collection<RouteEntry> getRoutes4();
 
-    /**
-     * Gets all IPv6 routes 
-     *
-     * @return IPv6 routes
-     */
-    public Collection<RouteEntry> getRoutes6();
 
     /**
      * Adds FIB listener.

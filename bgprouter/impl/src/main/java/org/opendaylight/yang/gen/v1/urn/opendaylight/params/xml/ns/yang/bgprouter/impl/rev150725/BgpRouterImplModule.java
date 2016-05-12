@@ -77,7 +77,7 @@ org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.bgprouter.impl.
 
         // RoutingConfigService initialization
         RoutingConfigService routingConfigService = this.getRoutingconfigDependency();
-        RoutingService routingService = this.getRoutingserviceDependency();
+        RoutingService routingService = getRoutingserviceDependency();
 
         TunnellingConnectivityManager connectivityManager = new TunnellingConnectivityManager(dataService,
                 routingConfigService, packetProcessingService, flowObjectivesService);

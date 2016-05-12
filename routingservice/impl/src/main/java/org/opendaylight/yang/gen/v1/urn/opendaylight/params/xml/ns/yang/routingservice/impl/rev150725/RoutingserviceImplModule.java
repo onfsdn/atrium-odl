@@ -1,11 +1,25 @@
+/*
+ * Copyright (c) 2015 Wipro Ltd. and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.routingservice.impl.rev150725;
 
-import org.opendaylight.atrium.routingservice.bgp.api.BgpService;
+
 import org.opendaylight.atrium.routingservice.config.api.RoutingConfigService;
-import org.opendaylight.atrium.routingservice.impl.Router;
+import org.opendaylight.atrium.routingservice.impl.RibManager;
+import org.opendaylight.controller.md.sal.binding.api.DataBroker;
+import org.opendaylight.controller.md.sal.binding.api.DataTreeChangeService;
 import org.opendaylight.atrium.hostservice.api.HostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.opendaylight.protocol.bgp.rib.RibReference;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.bgp.rib.rev130925.bgp.rib.Rib;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.bgp.rib.rev130925.bgp.rib.RibKey;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.bgp.rib.rev130925.Route;
+import org.opendaylight.yangtools.yang.binding.KeyedInstanceIdentifier;
 
 public class RoutingserviceImplModule
         extends
@@ -34,17 +48,25 @@ public class RoutingserviceImplModule
 
     @Override
     public java.lang.AutoCloseable createInstance() {
-
         LOG.info("Initializing Routingservice");
         RoutingConfigService routingConfigService =  getRoutingconfigDependency();
-        BgpService bgpService = getBgpserviceDependency();
         HostService hostService = getHostserviceDependency();
-        Router router = new Router();
-        router.setServices(routingConfigService, bgpService,hostService);
+        RibReference ribReference = getLocalRibDependency();
+        KeyedInstanceIdentifier<Rib,RibKey> ribIID = ribReference.getInstanceIdentifier();
+        DataBroker broker = getDataBrokerDependency();
+        
+        
+        //Router router = new Router();
+        //router.setServices(routingConfigService, bgpService,hostService);
 
-        getBrokerDependency().registerProvider(router);
+        RibManager<Route> ribManager = new RibManager<Route> (broker,ribReference,hostService,routingConfigService); 
+        //ribManager.start();
+        
+        
+        
+        getBrokerDependency().registerProvider(ribManager);
 
-        return router;
+        return ribManager;
     }
 
 }

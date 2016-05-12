@@ -13,9 +13,9 @@ module routingservice-impl {
     import config { prefix config; revision-date 2013-04-05; }
     import opendaylight-md-sal-binding { prefix mdsal; revision-date 2013-10-28;}
     import routingconfig-api { prefix routingconfig-api; revision-date 2015-07-25;}
-    import bgpservice-api { prefix bgpservice-api; revision-date 2015-07-25;}
     import routingservice-api { prefix routingservice-api; revision-date 2015-07-25;}
     import hostservice-api { prefix hostservice-api; revision-date 2015-07-25;}
+    import odl-bgp-rib-cfg { prefix ribapi; revision-date 2013-07-01; }
     
     description
         "Service definition for routingservice project";
@@ -67,14 +67,6 @@ module routingservice-impl {
                         config:required-identity routingconfig-api:routingconfig-api;
                     }
                 }
-            }
-            container bgpservice {
-                uses config:service-ref {
-                    refine type {
-                        mandatory true;
-                        config:required-identity bgpservice-api:bgpservice-api;
-                    }
-                }
             }            
             container hostservice {
                 uses config:service-ref {
@@ -84,6 +76,16 @@ module routingservice-impl {
                     }
                 }
             }
+            
+            container local-rib {
+                uses config:service-ref {
+                    refine type {
+                        mandatory true;
+                        config:required-identity ribapi:rib;
+                    }
+                }
+            }
+            
         }
     }
 }

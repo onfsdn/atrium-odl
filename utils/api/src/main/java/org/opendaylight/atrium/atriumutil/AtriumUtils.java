@@ -5,6 +5,7 @@
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
+
 package org.opendaylight.atrium.atriumutil;
 
 import java.math.BigInteger;
@@ -297,14 +298,14 @@ public class AtriumUtils {
 				.setVlanIdPresent(true).build()).build();
 	}
 
-	public static Ipv4Match getL3Match(InterfaceIpAddress intfAddr, boolean isSrc) {
+	public static Ipv4Match getL3Match(AtriumInterfaceIpAddress intfAddr, boolean isSrc) {
 
 		if (isSrc) {
 			return new Ipv4MatchBuilder()
-					.setIpv4Source(new Ipv4Prefix(IpPrefix.valueOf(intfAddr.ipAddress(), 32).toString())).build();
+					.setIpv4Source(new Ipv4Prefix(AtriumIpPrefix.valueOf(intfAddr.ipAddress(), 32).toString())).build();
 		} else {
 			return new Ipv4MatchBuilder()
-					.setIpv4Destination(new Ipv4Prefix(IpPrefix.valueOf(intfAddr.ipAddress(), 32).toString())).build();
+					.setIpv4Destination(new Ipv4Prefix(AtriumIpPrefix.valueOf(intfAddr.ipAddress(), 32).toString())).build();
 		}
 	}
 
@@ -344,7 +345,7 @@ public class AtriumUtils {
 	 *            the is src
 	 * @return the layer3 match
 	 */
-	public static Layer3Match createLayer3Match(IpPrefix ipPrefix, boolean isSrc) {
+	public static Layer3Match createLayer3Match(AtriumIpPrefix ipPrefix, boolean isSrc) {
 		if (ipPrefix.isIp4()) {
 			if (isSrc) {
 				return new Ipv4MatchBuilder().setIpv4Source(new Ipv4Prefix(ipPrefix.getIp4Prefix().toString())).build();

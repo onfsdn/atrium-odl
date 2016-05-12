@@ -21,8 +21,6 @@ public interface FibListener {
      * @param updates FIB updates of the UDPATE type
      * @param withdraws FIB updates of the WITHDRAW type
      */
-    // TODO this interface should use only one collection when we have the new
-    // intent key API
     void update(Collection<AtriumFibUpdate> updates, Collection<AtriumFibUpdate> withdraws);
 
 }

@@ -140,7 +140,7 @@ public class ArpSender {
 			return Futures.immediateFailedFuture(e);
 		}
 		// Generate packet with destination switch and port
-		LOG.info("Egress for ARP packetOut: " + new NodeConnectorRef(egressNc).toString());
+		LOG.debug("Egress for ARP packetOut: " + new NodeConnectorRef(egressNc).toString());
 		TransmitPacketInput packet = new TransmitPacketInputBuilder().setEgress(new NodeConnectorRef(egressNc))
 				.setNode(new NodeRef(egressNc.firstIdentifierOf(Node.class))).setPayload(arpFrameAsBytes).build();
 		if (LOG.isTraceEnabled()) {

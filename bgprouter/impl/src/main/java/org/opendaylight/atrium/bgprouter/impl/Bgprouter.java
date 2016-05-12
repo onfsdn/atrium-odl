@@ -23,11 +23,11 @@ import org.opendaylight.atrium.atriumutil.ActionData;
 import org.opendaylight.atrium.atriumutil.ActionUtils;
 import org.opendaylight.atrium.atriumutil.AtriumConstants;
 import org.opendaylight.atrium.atriumutil.AtriumUtils;
-import org.opendaylight.atrium.atriumutil.Interface;
-import org.opendaylight.atrium.atriumutil.InterfaceIpAddress;
-import org.opendaylight.atrium.atriumutil.IpAddress;
-import org.opendaylight.atrium.atriumutil.IpPrefix;
-import org.opendaylight.atrium.atriumutil.VlanId;
+import org.opendaylight.atrium.atriumutil.AtriumInterface;
+import org.opendaylight.atrium.atriumutil.AtriumInterfaceIpAddress;
+import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
+import org.opendaylight.atrium.atriumutil.AtriumIpPrefix;
+import org.opendaylight.atrium.atriumutil.AtriumVlanId;
 import org.opendaylight.atrium.routingservice.api.AtriumFibEntry;
 import org.opendaylight.atrium.routingservice.api.AtriumFibUpdate;
 import org.opendaylight.atrium.routingservice.api.FibListener;
@@ -105,16 +105,16 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 	private static final int PRIORITY_MULTIPLIER = 5;
 
 	// Reference count for how many times a next hop is used by a route
-	private final Multiset<IpAddress> nextHopsCount = ConcurrentHashMultiset.create();
+	private final Multiset<AtriumIpAddress> nextHopsCount = ConcurrentHashMultiset.create();
 
 	// Mapping from prefix to its current next hop
-	private final Map<IpPrefix, IpAddress> prefixToNextHop = Maps.newHashMap();
+	private final Map<AtriumIpPrefix, AtriumIpAddress> prefixToNextHop = Maps.newHashMap();
 
 	// Mapping from next hop IP to next hop object containing group info
-	private final Map<IpAddress, Integer> nextHops = Maps.newHashMap();
+	private final Map<AtriumIpAddress, Integer> nextHops = Maps.newHashMap();
 
 	// Stores FIB updates that are waiting for groups to be set up
-	private final Multimap<NextHopGroupKey, AtriumFibEntry> pendingUpdates = HashMultimap.create();
+	private final Multimap<AtriumNextHopGroupKey, AtriumFibEntry> pendingUpdates = HashMultimap.create();
 
 	// Device id of data-plane switch - should be learned from config
 	private NodeId deviceId;
@@ -238,6 +238,7 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 	 */
 	@Override
 	public void close() throws Exception {
+		LOG.info("Stopping BGP Router Application");
 		routingService.stop();
 		connectivityManager.stop();
 		if (listenerRegistration != null) {
@@ -313,7 +314,7 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 			addNextHop(entry);
 
 			Integer nextId;
-			synchronized (pendingUpdates) {
+			synchronized (nextHops) {
 				nextId = nextHops.get(entry.nextHopIp());
 			}
 
@@ -397,7 +398,7 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 
 	}
 
-	private ForwardingObjectiveBuilder generateRibForwardingObj(IpPrefix prefix, Integer nextId) {
+	private ForwardingObjectiveBuilder generateRibForwardingObj(AtriumIpPrefix prefix, Integer nextId) {
 		ForwardingObjectiveBuilder forwardingObjBuilder = new ForwardingObjectiveBuilder();
 		MatchBuilder matchBuilder = new MatchBuilder();
 
@@ -430,46 +431,49 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 	 */
 	private synchronized void addNextHop(AtriumFibEntry entry) {
 		prefixToNextHop.put(entry.prefix(), entry.nextHopIp());
-		if (nextHopsCount.count(entry.nextHopIp()) == 0) {
-			Interface egressIntf = configService.getMatchingInterface(
-					org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924.IpAddressBuilder
-							.getDefaultInstance(entry.nextHopIp().toString()));
+		// This check is not done currently as there is an issue wherein after
+		// the router/ovs instance is restarted ODL is not installing nexthop
+		// groups.
+		// if (nextHopsCount.count(entry.nextHopIp()) == 0) {
+		AtriumInterface egressIntf = configService.getMatchingInterface(
+				org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924.IpAddressBuilder
+						.getDefaultInstance(entry.nextHopIp().toString()));
 
-			if (egressIntf == null) {
-				LOG.warn("no egress interface found for {}", entry);
-				return;
-			}
-
-			NextHopGroupKey groupKey = new NextHopGroupKey(entry.nextHopIp());
-
-			NextHop nextHop = new NextHop(entry.nextHopIp(), entry.nextHopMac(), groupKey);
-
-			List<TrafficTreatment> treatment = getTrafficTreatmentForNextObj(egressIntf, nextHop);
-
-			NextObjectiveBuilder nextObjBuilder = new NextObjectiveBuilder();
-
-			nextObjBuilder.setOperation(Operation.Add);
-			nextObjBuilder.setType(Type.Simple);
-			nextObjBuilder.setTrafficTreatment(treatment);
-			NodeRef nodeRef = new NodeRef(
-					InstanceIdentifier.builder(Nodes.class).child(Node.class, new NodeKey(deviceId)).build());
-
-			int nextId = nxtGenerator.allocateNextId();
-
-			nextObjBuilder.setNextId(Integer.valueOf(nextId));
-
-			NextInputBuilder inputBuilder = new NextInputBuilder();
-			inputBuilder.setNode(nodeRef);
-			inputBuilder.setNextObjective(nextObjBuilder.build());
-			flowObjectivesService.next(inputBuilder.build());
-
-			nextHops.put(entry.nextHopIp(), nextId);
+		if (egressIntf == null) {
+			LOG.warn("no egress interface found for {}", entry);
+			return;
 		}
 
-		nextHopsCount.add(entry.nextHopIp());
+		AtriumNextHopGroupKey groupKey = new AtriumNextHopGroupKey(entry.nextHopIp());
+
+		AtriumNextHop nextHop = new AtriumNextHop(entry.nextHopIp(), entry.nextHopMac(), groupKey);
+
+		List<TrafficTreatment> treatment = getTrafficTreatmentForNextObj(egressIntf, nextHop);
+
+		NextObjectiveBuilder nextObjBuilder = new NextObjectiveBuilder();
+
+		nextObjBuilder.setOperation(Operation.Add);
+		nextObjBuilder.setType(Type.Simple);
+		nextObjBuilder.setTrafficTreatment(treatment);
+		NodeRef nodeRef = new NodeRef(
+				InstanceIdentifier.builder(Nodes.class).child(Node.class, new NodeKey(deviceId)).build());
+
+		int nextId = nxtGenerator.allocateNextId();
+
+		nextObjBuilder.setNextId(Integer.valueOf(nextId));
+
+		NextInputBuilder inputBuilder = new NextInputBuilder();
+		inputBuilder.setNode(nodeRef);
+		inputBuilder.setNextObjective(nextObjBuilder.build());
+		flowObjectivesService.next(inputBuilder.build());
+
+		nextHops.put(entry.nextHopIp(), nextId);
+		
+		// }
+		// nextHopsCount.add(entry.nextHopIp());
 	}
 
-	private List<TrafficTreatment> getTrafficTreatmentForNextObj(Interface egressInterface, NextHop nextHop) {
+	private List<TrafficTreatment> getTrafficTreatmentForNextObj(AtriumInterface egressInterface, AtriumNextHop nextHop) {
 		List<TrafficTreatment> treatment = new ArrayList<TrafficTreatment>();
 		List<ActionData> actions = new ArrayList<ActionData>();
 
@@ -536,9 +540,9 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 	 * @param intfs
 	 *            the intfs
 	 */
-	private void processIntfFilters(boolean install, Set<Interface> intfs) {
+	private void processIntfFilters(boolean install, Set<AtriumInterface> intfs) {
 		LOG.info("Processing {} router interfaces", intfs.size());
-		for (Interface intf : intfs) {
+		for (AtriumInterface intf : intfs) {
 			NodeConnector connector = intf.connectPoint();
 			if (connector == null) {
 				continue;
@@ -567,12 +571,12 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 
 	}
 
-	private FilterObjectiveBuilder gnerateFilterObjectiveBuilder(Interface intf) {
+	private FilterObjectiveBuilder gnerateFilterObjectiveBuilder(AtriumInterface intf) {
 
 		checkNotNull(intf);
-		Set<InterfaceIpAddress> ipAddresses = intf.ipAddresses();
+		Set<AtriumInterfaceIpAddress> ipAddresses = intf.ipAddresses();
 		MacAddress ethDstMac = intf.mac();
-		VlanId vlanId = intf.vlan();
+		AtriumVlanId vlanId = intf.vlan();
 
 		FilterObjectiveBuilder fobjBuilder = new FilterObjectiveBuilder();
 
@@ -587,7 +591,7 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 		fobjBuilder.setInPort(intf.connectPoint().getId());
 
 		// Match IP Dst
-		for (InterfaceIpAddress infAddr : ipAddresses) {
+		for (AtriumInterfaceIpAddress infAddr : ipAddresses) {
 			Ipv4Match l3Match = AtriumUtils.getL3Match(infAddr, false);
 			fobjBuilder.setLayer3Match(l3Match);
 		}

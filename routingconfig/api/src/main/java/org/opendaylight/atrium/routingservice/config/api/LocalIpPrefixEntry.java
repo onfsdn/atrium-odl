@@ -1,9 +1,16 @@
+/*
+ * Copyright (c) 2015 Wipro Ltd. and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.opendaylight.atrium.routingservice.config.api;
 
 import java.util.Objects;
 
-import org.opendaylight.atrium.atriumutil.IpAddress;
-import org.opendaylight.atrium.atriumutil.IpPrefix;
+import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
+import org.opendaylight.atrium.atriumutil.AtriumIpPrefix;
 
 import com.google.common.base.MoreObjects;
 
@@ -11,9 +18,9 @@ import com.google.common.base.MoreObjects;
  * Configuration details for an IP prefix entry.
  */
 public class LocalIpPrefixEntry {
-    private final IpPrefix ipPrefix;
+    private final AtriumIpPrefix ipPrefix;
     private final IpPrefixType type;
-    private final IpAddress gatewayIpAddress;
+    private final AtriumIpAddress gatewayIpAddress;
 
     /**
      * Specifies the type of local IP prefix.
@@ -43,9 +50,9 @@ public class LocalIpPrefixEntry {
      */
     public LocalIpPrefixEntry(String ipPrefix,
                               IpPrefixType type,
-                              IpAddress
+                              AtriumIpAddress
                                       gatewayIpAddress) {
-        this.ipPrefix = IpPrefix.valueOf(ipPrefix);
+        this.ipPrefix = AtriumIpPrefix.valueOf(ipPrefix);
         this.type = type;
         this.gatewayIpAddress = gatewayIpAddress;
     }
@@ -55,7 +62,7 @@ public class LocalIpPrefixEntry {
      *
      * @return the IP prefix
      */
-    public IpPrefix ipPrefix() {
+    public AtriumIpPrefix ipPrefix() {
         return ipPrefix;
     }
 
@@ -73,7 +80,7 @@ public class LocalIpPrefixEntry {
      *
      * @return the gateway IP address
      */
-    public IpAddress getGatewayIpAddress() {
+    public AtriumIpAddress getGatewayIpAddress() {
         return gatewayIpAddress;
     }
 

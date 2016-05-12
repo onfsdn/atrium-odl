@@ -1,4 +1,6 @@
-/* Copyright (c) 2015 Wipro Ltd. and others.  All rights reserved.
+/*
+ * Copyright (c) 2015 Wipro Ltd. and others.  All rights reserved.
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
@@ -110,10 +112,10 @@ public class ArpHandler implements ArpPacketListener {
 		Header8021q vlan = null;
 
 		if (list == null || list.isEmpty()) {
-			log.info("VLAN Tag not found");
+			log.debug("Untagged packet observed");
 		} else {
 			vlan = list.get(0);
-			log.info("Vlan is " + vlan);
+			log.debug("Vlan tag for packet is " + vlan);
 		}
 
 		Address address = getMatchingAddress(new IpAddress(destIp));
@@ -132,9 +134,9 @@ public class ArpHandler implements ArpPacketListener {
 			// LOG.info("Address not found in configuration.. Cant resolve
 			// arp...");
 			if (hostService != null) {
-				org.opendaylight.atrium.atriumutil.IpAddress atriumIp = null;
+				org.opendaylight.atrium.atriumutil.AtriumIpAddress atriumIp = null;
 				if (destIp != null) {
-					atriumIp = org.opendaylight.atrium.atriumutil.IpAddress.valueOf(destIp.getValue());
+					atriumIp = org.opendaylight.atrium.atriumutil.AtriumIpAddress.valueOf(destIp.getValue());
 				}
 				org.opendaylight.atrium.atriumutil.AtriumMacAddress mac = hostService.getMacAddressByIp(atriumIp);
 				if (mac != null) {

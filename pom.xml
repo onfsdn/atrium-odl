@@ -17,7 +17,6 @@
 		<module>utils/config</module>
 		<module>routingconfig</module>
 		<module>hostservice</module>
-		<module>bgpservice</module>
 		<module>routingservice</module>
 		<module>atrium-cli</module>
 	        <module>didm</module>

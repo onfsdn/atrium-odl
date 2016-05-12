@@ -17,12 +17,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-import org.opendaylight.atrium.atriumutil.Interface;
-import org.opendaylight.atrium.atriumutil.InterfaceIpAddress;
-import org.opendaylight.atrium.atriumutil.Ip4Address;
-import org.opendaylight.atrium.atriumutil.Ip4Prefix;
-import org.opendaylight.atrium.atriumutil.IpPrefix;
-import org.opendaylight.atrium.atriumutil.VlanId;
+import org.opendaylight.atrium.atriumutil.AtriumInterface;
+import org.opendaylight.atrium.atriumutil.AtriumInterfaceIpAddress;
+import org.opendaylight.atrium.atriumutil.AtriumIp4Address;
+import org.opendaylight.atrium.atriumutil.AtriumIp4Prefix;
+import org.opendaylight.atrium.atriumutil.AtriumIpPrefix;
+import org.opendaylight.atrium.atriumutil.AtriumVlanId;
 import org.opendaylight.atrium.routingservice.config.api.LocalIpPrefixEntry;
 import org.opendaylight.atrium.routingservice.config.api.RoutingConfigService;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
@@ -126,7 +126,7 @@ public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAw
 	}
 
 	@Override
-	public boolean isIpPrefixLocal(IpPrefix ipPrefix) {
+	public boolean isIpPrefixLocal(AtriumIpPrefix ipPrefix) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -236,7 +236,7 @@ public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAw
 	}
 
 	@Override
-	public Interface getInterface(NodeConnector connectPoint) {
+	public AtriumInterface getInterface(NodeConnector connectPoint) {
 
 		NodeConnectorId connectorId = connectPoint.getId();
 		String splitArray[] = connectorId.getValue().split(":");
@@ -267,19 +267,19 @@ public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAw
 
 			if (dpid.equals(address.getDpid()) && ofPortId.equals(address.getOfPortId().getValue())) {
 				MacAddress mac = address.getMac();
-				VlanId vlanId = VlanId.vlanId(address.getVlan().shortValue());
+				AtriumVlanId vlanId = AtriumVlanId.vlanId(address.getVlan().shortValue());
 
 				IpAddress ipAddress = address.getIpAddress();
-				Ip4Address ip4Address = Ip4Address.valueOf(ipAddress.getIpv4Address().getValue());
+				AtriumIp4Address ip4Address = AtriumIp4Address.valueOf(ipAddress.getIpv4Address().getValue());
 
 				// TODO
 				// Include subnet in yang
-				Ip4Prefix ip4Prefix = Ip4Prefix.valueOf(ip4Address.getIp4Address().toString() + "/24");
-				InterfaceIpAddress interfaceIpAddress = new InterfaceIpAddress(ip4Address, ip4Prefix);
-				Set<InterfaceIpAddress> interfaceIpAddressSet = new HashSet<>();
+				AtriumIp4Prefix ip4Prefix = AtriumIp4Prefix.valueOf(ip4Address.getIp4Address().toString() + "/24");
+				AtriumInterfaceIpAddress interfaceIpAddress = new AtriumInterfaceIpAddress(ip4Address, ip4Prefix);
+				Set<AtriumInterfaceIpAddress> interfaceIpAddressSet = new HashSet<>();
 				interfaceIpAddressSet.add(interfaceIpAddress);
 
-				Interface matchingInterface = new Interface(connectPoint, interfaceIpAddressSet, mac, vlanId);
+				AtriumInterface matchingInterface = new AtriumInterface(connectPoint, interfaceIpAddressSet, mac, vlanId);
 				return matchingInterface;
 			}
 		}
@@ -288,9 +288,9 @@ public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAw
 	}
 
 	@Override
-	public Interface getMatchingInterface(IpAddress ipAddress) {
+	public AtriumInterface getMatchingInterface(IpAddress ipAddress) {
 
-		Interface matchingInterface = null;
+		AtriumInterface matchingInterface = null;
 		ReadOnlyTransaction readOnlyTransaction = dataBroker.newReadOnlyTransaction();
 
 		BgpPeerKey bgpPeerKey = new BgpPeerKey(ipAddress);
@@ -337,15 +337,15 @@ public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAw
 			if (peerDpId.equals(addressDpId) && peerPort.equals(addressPort)) {
 
 				MacAddress mac = address.getMac();
-				VlanId vlanId = VlanId.vlanId(address.getVlan().shortValue());
+				AtriumVlanId vlanId = AtriumVlanId.vlanId(address.getVlan().shortValue());
 
-				Ip4Address ip4Address = Ip4Address.valueOf(address.getIpAddress().getIpv4Address().getValue());
+				AtriumIp4Address ip4Address = AtriumIp4Address.valueOf(address.getIpAddress().getIpv4Address().getValue());
 
 				// TODO
 				// Include subnet in yang
-				Ip4Prefix ip4Prefix = Ip4Prefix.valueOf(ip4Address.getIp4Address().toString() + "/24");
-				InterfaceIpAddress interfaceIpAddress = new InterfaceIpAddress(ip4Address, ip4Prefix);
-				Set<InterfaceIpAddress> interfaceIpAddressSet = new HashSet<>();
+				AtriumIp4Prefix ip4Prefix = AtriumIp4Prefix.valueOf(ip4Address.getIp4Address().toString() + "/24");
+				AtriumInterfaceIpAddress interfaceIpAddress = new AtriumInterfaceIpAddress(ip4Address, ip4Prefix);
+				Set<AtriumInterfaceIpAddress> interfaceIpAddressSet = new HashSet<>();
 				interfaceIpAddressSet.add(interfaceIpAddress);
 
 				NodeId nodeId = new NodeId(address.getDpid());
@@ -370,7 +370,7 @@ public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAw
 					readOnlyTransaction.close();
 				}
 
-				matchingInterface = new Interface(nodeConnector, interfaceIpAddressSet, mac, vlanId);
+				matchingInterface = new AtriumInterface(nodeConnector, interfaceIpAddressSet, mac, vlanId);
 				return matchingInterface;
 			}
 		}
@@ -378,9 +378,9 @@ public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAw
 	}
 
 	@Override
-	public Set<Interface> getInterfaces() {
+	public Set<AtriumInterface> getInterfaces() {
 
-		Set<Interface> interfaceSet = new HashSet<>();
+		Set<AtriumInterface> interfaceSet = new HashSet<>();
 		ReadOnlyTransaction readOnlyTransaction = dataBroker.newReadOnlyTransaction();
 		InstanceIdentifier<Addresses> addressBuilder = InstanceIdentifier.builder(Addresses.class).build();
 		Addresses addresses = null;
@@ -438,19 +438,19 @@ public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAw
 			}
 
 			MacAddress mac = address.getMac();
-			VlanId vlanId = VlanId.vlanId(address.getVlan().shortValue());
+			AtriumVlanId vlanId = AtriumVlanId.vlanId(address.getVlan().shortValue());
 
 			IpAddress ipAddress = address.getIpAddress();
-			Ip4Address ip4Address = Ip4Address.valueOf(ipAddress.getIpv4Address().getValue());
+			AtriumIp4Address ip4Address = AtriumIp4Address.valueOf(ipAddress.getIpv4Address().getValue());
 
 			// TODO
 			// Include subnet in yang
-			Ip4Prefix ip4Prefix = Ip4Prefix.valueOf(ip4Address.getIp4Address().toString() + "/24");
-			InterfaceIpAddress interfaceIpAddress = new InterfaceIpAddress(ip4Address, ip4Prefix);
-			Set<InterfaceIpAddress> interfaceIpAddressSet = new HashSet<>();
+			AtriumIp4Prefix ip4Prefix = AtriumIp4Prefix.valueOf(ip4Address.getIp4Address().toString() + "/24");
+			AtriumInterfaceIpAddress interfaceIpAddress = new AtriumInterfaceIpAddress(ip4Address, ip4Prefix);
+			Set<AtriumInterfaceIpAddress> interfaceIpAddressSet = new HashSet<>();
 			interfaceIpAddressSet.add(interfaceIpAddress);
 
-			Interface matchingInterface = new Interface(nodeConnector, interfaceIpAddressSet, mac, vlanId);
+			AtriumInterface matchingInterface = new AtriumInterface(nodeConnector, interfaceIpAddressSet, mac, vlanId);
 			interfaceSet.add(matchingInterface);
 		}
 		return interfaceSet;

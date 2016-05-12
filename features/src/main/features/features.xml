@@ -15,6 +15,8 @@
 	</repository>
 	<repository>mvn:org.opendaylight.snmp/features-snmp/${snmp.version}/xml/features
 	</repository>
+        <repository>mvn:org.opendaylight.bgpcep/features-bgp/${bgpcep.version}/xml/features
+        </repository>
 
 	<feature name='atrium-thirdparty' version='${atrium.version}'
 		description='OpenDaylight :Atrium : thirdparty '>
@@ -38,6 +40,9 @@
 		</configfile>
 		<configfile finalname="configuration/initial/addresses.json">mvn:org.opendaylight.atrium/atrium-initial-config/${atrium.version}/xml/addressesconf
 		</configfile>
+		<!-- 
+
+		 -->		
 	</feature>
 	<feature name='atrium-utilservice' version='${atrium.version}'
 		description='OpenDaylight :: atrium-utilservice '>
@@ -50,12 +55,9 @@
 	<feature name='atrium-bgpservice' version='${atrium.version}'
 		description='OpenDaylight :: bgpservice '>
 		<feature version='${atrium.version}'>atrium-utilservice</feature>
-		<bundle>mvn:org.opendaylight.atrium/bgpservice-api/${atrium.version}
-		</bundle>
-		<bundle>mvn:org.opendaylight.atrium/bgpservice-impl/${atrium.version}
-		</bundle>
-		<configfile finalname="etc/opendaylight/bgpservice.xml">mvn:org.opendaylight.atrium/bgpservice-impl/${atrium.version}/xml/config
-		</configfile>
+		<feature version='${bgpcep.version}'>odl-bgpcep-bgp-all</feature>
+		<configfile finalname="etc/opendaylight/karaf/atrium-bgp-config.xml">mvn:org.opendaylight.atrium/atrium-initial-config/${atrium.version}/xml/bgpcepconf
+		</configfile>		
 	</feature>
 	<feature name='atrium-routingconfig' version='${atrium.version}'
 		description='OpenDaylight :: routingconfig'>

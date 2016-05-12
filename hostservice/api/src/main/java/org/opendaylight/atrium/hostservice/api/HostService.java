@@ -10,7 +10,7 @@ package org.opendaylight.atrium.hostservice.api;
 import java.util.Set;
 
 import org.opendaylight.atrium.atriumutil.AtriumMacAddress;
-import org.opendaylight.atrium.atriumutil.IpAddress;
+import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
 import org.opendaylight.atrium.routingservice.config.api.RoutingConfigService;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
@@ -39,7 +39,7 @@ public interface HostService {
      *
      * @param nhIp the nh ip
      */
-    public void startMonitoringIp(IpAddress nhIp);
+    public void startMonitoringIp(AtriumIpAddress nhIp);
     
     /**
      * Gets the hosts by ip.
@@ -47,7 +47,7 @@ public interface HostService {
      * @param ip the ip
      * @return the hosts by ip
      */
-    public Set<Host> getHostsByIp(IpAddress ip);
+    public Set<Host> getHostsByIp(AtriumIpAddress ip);
     
     /**
      * Returns the host with the specified identifier.
@@ -88,7 +88,7 @@ public interface HostService {
      * @param ip address to be resolved 
      * @return Address for the ip
      */
-    public ConnectorAddress getAddressByIp(IpAddress ip);
+    public ConnectorAddress getAddressByIp(AtriumIpAddress ip);
 
     /**
      * Gets the MAC address instead of Host based on ARP resolution 
@@ -96,6 +96,6 @@ public interface HostService {
      * @param ip address to be resolved 
      * @return MAC Address for the ip
      */
-    public AtriumMacAddress getMacAddressByIp(IpAddress ip);
+    public AtriumMacAddress getMacAddressByIp(AtriumIpAddress ip);
     
 }

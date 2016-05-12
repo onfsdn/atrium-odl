@@ -40,7 +40,13 @@
                   <file>${project.build.directory}/classes/addresses.json</file>
                   <type>xml</type>
                   <classifier>addressesconf</classifier>
+                </artifact>               
+                <artifact>
+                  <file>${project.build.directory}/classes/atrium-bgp-config.xml</file>
+                  <type>xml</type>
+                  <classifier>bgpcepconf</classifier>
                 </artifact>
+         
               </artifacts>
             </configuration>
           </execution>

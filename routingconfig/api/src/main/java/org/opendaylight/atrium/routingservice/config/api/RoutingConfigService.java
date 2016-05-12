@@ -1,9 +1,16 @@
+/*
+ * Copyright (c) 2015 Wipro Ltd. and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.opendaylight.atrium.routingservice.config.api;
 
 import java.util.Set;
 
-import org.opendaylight.atrium.atriumutil.Interface;
-import org.opendaylight.atrium.atriumutil.IpPrefix;
+import org.opendaylight.atrium.atriumutil.AtriumInterface;
+import org.opendaylight.atrium.atriumutil.AtriumIpPrefix;
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924.IpAddress;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.inventory.rev130819.node.NodeConnector;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.bgpconfig.api.rev150725.BgpPeers;
@@ -58,14 +65,14 @@ public interface RoutingConfigService {
 	 * @return true if the IP prefix belongs to local SDN network, otherwise
 	 *         false
 	 */
-	public boolean isIpPrefixLocal(IpPrefix ipPrefix);
+	public boolean isIpPrefixLocal(AtriumIpPrefix ipPrefix);
 
 	/**
 	 * Retrieves the entire set of interfaces in the network.
 	 *
 	 * @return the set of interfaces
 	 */
-	 Set<Interface> getInterfaces();
+	 Set<AtriumInterface> getInterfaces();
 
 	/**
 	 * Retrieves the interface associated with the given connect point.
@@ -74,7 +81,7 @@ public interface RoutingConfigService {
 	 *            the connect point to retrieve interface information for
 	 * @return the interface
 	 */
-	 Interface getInterface(NodeConnector connectPoint);
+	 AtriumInterface getInterface(NodeConnector connectPoint);
 
 	/**
 	 * Retrieves the interface that matches the given IP address. Matching means
@@ -84,5 +91,5 @@ public interface RoutingConfigService {
 	 *            IP address to match
 	 * @return the matching interface
 	 */
-	 Interface getMatchingInterface(IpAddress ipAddress);
+	 AtriumInterface getMatchingInterface(IpAddress ipAddress);
 }

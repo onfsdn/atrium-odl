@@ -8,8 +8,8 @@
 package org.opendaylight.atrium.routingservice.api;
 
 import com.google.common.base.MoreObjects;
-import org.opendaylight.atrium.atriumutil.IpAddress;
-import org.opendaylight.atrium.atriumutil.IpPrefix;
+import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
+import org.opendaylight.atrium.atriumutil.AtriumIpPrefix;
 import org.opendaylight.atrium.atriumutil.AtriumMacAddress;
 
 
@@ -20,8 +20,8 @@ import java.util.Objects;
  */
 public class AtriumFibEntry {
 
-    private final IpPrefix prefix;
-    private final IpAddress nextHopIp;
+    private final AtriumIpPrefix prefix;
+    private final AtriumIpAddress nextHopIp;
     private final AtriumMacAddress nextHopMac;
 
     /**
@@ -31,7 +31,7 @@ public class AtriumFibEntry {
      * @param nextHopIp IP address of the next hop
      * @param nextHopMac MAC address of the next hop
      */
-    public AtriumFibEntry(IpPrefix prefix, IpAddress nextHopIp, AtriumMacAddress nextHopMac) {
+    public AtriumFibEntry(AtriumIpPrefix prefix, AtriumIpAddress nextHopIp, AtriumMacAddress nextHopMac) {
         this.prefix = prefix;
         this.nextHopIp = nextHopIp;
         this.nextHopMac = nextHopMac;
@@ -42,7 +42,7 @@ public class AtriumFibEntry {
      *
      * @return the IP prefix
      */
-    public IpPrefix prefix() {
+    public AtriumIpPrefix prefix() {
         return prefix;
     }
 
@@ -51,7 +51,7 @@ public class AtriumFibEntry {
      *
      * @return the IP address
      */
-    public IpAddress nextHopIp() {
+    public AtriumIpAddress nextHopIp() {
         return nextHopIp;
     }
 

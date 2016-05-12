@@ -22,8 +22,8 @@ import java.util.concurrent.TimeUnit;
 import org.jboss.netty.util.Timeout;
 import org.jboss.netty.util.TimerTask;
 import org.opendaylight.atrium.atriumutil.AtriumMacAddress;
-import org.opendaylight.atrium.atriumutil.IpAddress;
-import org.opendaylight.atrium.atriumutil.Timer;
+import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
+import org.opendaylight.atrium.atriumutil.AtriumTimer;
 import org.opendaylight.atrium.hostservice.api.ArpMessageAddress;
 import org.opendaylight.atrium.hostservice.api.Host;
 import org.opendaylight.atrium.hostservice.api.HostEvent;
@@ -65,7 +65,7 @@ public class HostMonitor implements TimerTask {
 
 	private Timeout timeout;
 
-	private Set<IpAddress> monitoredAddresses = Collections.newSetFromMap(new ConcurrentHashMap<>());;
+	private Set<AtriumIpAddress> monitoredAddresses = Collections.newSetFromMap(new ConcurrentHashMap<>());;
 	private ListenerRegistration<DataChangeListener> hostNodeListerRegistration;
 	private HostUpdatesListener hostUpdatesListener;
 	private HostService hostService;
@@ -101,7 +101,7 @@ public class HostMonitor implements TimerTask {
 	 * @param ip
 	 *            IP address of the host to monitor
 	 */
-	void addMonitoringFor(IpAddress ip) {
+	void addMonitoringFor(AtriumIpAddress ip) {
 		synchronized (monitoredAddresses) {
 			monitoredAddresses.add(ip);
 		}
@@ -113,7 +113,7 @@ public class HostMonitor implements TimerTask {
 	 * @param ip
 	 *            IP address to stop monitoring on
 	 */
-	void stopMonitoring(IpAddress ip) {
+	void stopMonitoring(AtriumIpAddress ip) {
 		synchronized (monitoredAddresses) {
 			monitoredAddresses.remove(ip);
 		}
@@ -126,7 +126,7 @@ public class HostMonitor implements TimerTask {
 		LOG.info("Starting Host Monitor Service");
 		synchronized (this) {
 			if (timeout == null) {
-				timeout = Timer.getTimer().newTimeout(this, 0, TimeUnit.MILLISECONDS);
+				timeout = AtriumTimer.getTimer().newTimeout(this, 0, TimeUnit.MILLISECONDS);
 			}
 		}
 		// registerAsDataChangeListener();
@@ -151,8 +151,8 @@ public class HostMonitor implements TimerTask {
 
 		LOG.info("**Timer triggered**");
 
-		List<IpAddress> resolvedIps = new ArrayList<>();
-		for (IpAddress ip : monitoredAddresses) {
+		List<AtriumIpAddress> resolvedIps = new ArrayList<>();
+		for (AtriumIpAddress ip : monitoredAddresses) {
 			Host host = hostService.getHost(new HostId(ip.toString()));
 			if (host == null) {
 				LOG.info("Host not found.Sending ARP request for:" + ip);
@@ -167,7 +167,7 @@ public class HostMonitor implements TimerTask {
 		}
 
 		if (resolvedIps != null && !resolvedIps.isEmpty()) {
-			for (IpAddress resolvedIp : resolvedIps) {
+			for (AtriumIpAddress resolvedIp : resolvedIps) {
 				synchronized (monitoredAddresses) {
 					monitoredAddresses.remove(resolvedIp);
 				}
@@ -175,12 +175,12 @@ public class HostMonitor implements TimerTask {
 			resolvedIps.clear();
 		}
 		LOG.info("setting timer again");
-		this.timeout = Timer.getTimer().newTimeout(this, probeRate, TimeUnit.MILLISECONDS);
+		this.timeout = AtriumTimer.getTimer().newTimeout(this, probeRate, TimeUnit.MILLISECONDS);
 	}
 
-	private void sendArpRequest(IpAddress ip) {
+	private void sendArpRequest(AtriumIpAddress ip) {
 		checkNotNull(ip, "ipaddress for ARP flood is null");
-		LOG.info("MAC not founding sending ARP flood");
+		LOG.info("MAC not found sending ARP flood");
 		List<BgpSpeaker> speakers = configService.getBgpSpeakers().getBgpSpeaker();
 
 		for (BgpSpeaker bgpSpeaker : speakers) {
@@ -283,7 +283,7 @@ public class HostMonitor implements TimerTask {
 				.getIp().getIpv6Address();
 		HostId hostId = null;
 		if (ipv4Address != null) {
-			org.opendaylight.atrium.atriumutil.IpAddress ip = org.opendaylight.atrium.atriumutil.IpAddress
+			org.opendaylight.atrium.atriumutil.AtriumIpAddress ip = org.opendaylight.atrium.atriumutil.AtriumIpAddress
 					.valueOf(ipv4Address.getValue());
 			hostId = new HostId(ipv4Address.getValue());
 			if (hostService.getHost(hostId) == null) {
@@ -291,7 +291,7 @@ public class HostMonitor implements TimerTask {
 				hostUpdatesListener.addHost(hostId, host);
 			}
 		} else if (ipv6Address != null) {
-			org.opendaylight.atrium.atriumutil.IpAddress ip = org.opendaylight.atrium.atriumutil.IpAddress
+			org.opendaylight.atrium.atriumutil.AtriumIpAddress ip = org.opendaylight.atrium.atriumutil.AtriumIpAddress
 					.valueOf(ipv6Address.getValue());
 			hostId = new HostId(ipv6Address.getValue());
 			if (hostService.getHost(hostId) == null) {
@@ -311,7 +311,7 @@ public class HostMonitor implements TimerTask {
 				.getIp().getIpv6Address();
 		HostId hostId = null;
 		if (ipv4Address != null) {
-			org.opendaylight.atrium.atriumutil.IpAddress ip = org.opendaylight.atrium.atriumutil.IpAddress
+			org.opendaylight.atrium.atriumutil.AtriumIpAddress ip = org.opendaylight.atrium.atriumutil.AtriumIpAddress
 					.valueOf(ipv4Address.getValue());
 			hostId = new HostId(ip.toString());
 			if (hostService.getHost(hostId) == null) {
@@ -320,7 +320,7 @@ public class HostMonitor implements TimerTask {
 		}
 
 		if (ipv6Address != null) {
-			org.opendaylight.atrium.atriumutil.IpAddress ip = org.opendaylight.atrium.atriumutil.IpAddress
+			org.opendaylight.atrium.atriumutil.AtriumIpAddress ip = org.opendaylight.atrium.atriumutil.AtriumIpAddress
 					.valueOf(ipv6Address.getValue());
 			hostId = new HostId(ipv6Address.getValue());
 			if (hostService.getHost(hostId) == null) {
@@ -337,13 +337,13 @@ public class HostMonitor implements TimerTask {
 				.getIp().getIpv6Address();
 		HostId hostId = null;
 		if (ipv4Address != null) {
-			org.opendaylight.atrium.atriumutil.IpAddress ip = org.opendaylight.atrium.atriumutil.IpAddress
+			org.opendaylight.atrium.atriumutil.AtriumIpAddress ip = org.opendaylight.atrium.atriumutil.AtriumIpAddress
 					.valueOf(ipv4Address.getValue());
 			hostId = new HostId(ip.toString());
 			hostUpdatesListener.deleteHost(hostId);
 		}
 		if (ipv6Address != null) {
-			org.opendaylight.atrium.atriumutil.IpAddress ip = org.opendaylight.atrium.atriumutil.IpAddress
+			org.opendaylight.atrium.atriumutil.AtriumIpAddress ip = org.opendaylight.atrium.atriumutil.AtriumIpAddress
 					.valueOf(ipv6Address.getValue());
 			hostId = new HostId(ip.toString());
 			hostUpdatesListener.deleteHost(hostId);

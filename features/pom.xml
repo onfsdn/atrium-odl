@@ -31,6 +31,7 @@
 		<skipTests>true</skipTests>
 		<snmp.version>1.1.0-Beryllium</snmp.version>
 		<didm.version>0.2.0-SNAPSHOT</didm.version>
+		<bgpcep.version>0.5.0-Beryllium</bgpcep.version>
 	</properties>
 
 	<dependencyManagement>
@@ -78,6 +79,14 @@
 			<type>xml</type>
 			<scope>runtime</scope>
 		</dependency>
+               <dependency>
+                        <groupId>org.opendaylight.bgpcep</groupId>
+                        <artifactId>features-bgp</artifactId>
+                        <classifier>features</classifier>
+                        <type>xml</type>
+                        <version>${bgpcep.version}</version>
+			<scope>runtime</scope>            
+                </dependency>	
 		<dependency>
 			<groupId>org.opendaylight.openflowplugin</groupId>
 			<artifactId>features-openflowplugin</artifactId>
@@ -123,16 +132,6 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>bgpservice-api</artifactId>
-			<version>${atrium.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>bgpservice-impl</artifactId>
-			<version>${atrium.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
 			<artifactId>bgprouter-api</artifactId>
 			<version>${atrium.version}</version>
 		</dependency>
@@ -159,13 +158,6 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>routingconfig-impl</artifactId>
-			<version>${atrium.version}</version>
-			<classifier>config</classifier>
-			<type>xml</type>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>bgpservice-impl</artifactId>
 			<version>${atrium.version}</version>
 			<classifier>config</classifier>
 			<type>xml</type>
@@ -228,6 +220,13 @@
 			<type>xml</type>
 			<classifier>addressesconf</classifier>
 		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>atrium-initial-config</artifactId>
+			<version>${atrium.version}</version>
+			<type>xml</type>
+			<classifier>bgpcepconf</classifier>
+		</dependency>		
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>routingservice-impl</artifactId>

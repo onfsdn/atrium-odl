@@ -18,8 +18,8 @@ import java.util.concurrent.Future;
 import org.opendaylight.atrium.atriumutil.ActionData;
 import org.opendaylight.atrium.atriumutil.ActionUtils;
 import org.opendaylight.atrium.atriumutil.AtriumUtils;
-import org.opendaylight.atrium.atriumutil.tcp.TCPDecodeException;
-import org.opendaylight.atrium.atriumutil.tcp.TCPHeader;
+import org.opendaylight.atrium.atriumutil.tcp.AtriumTCPDecodeException;
+import org.opendaylight.atrium.atriumutil.tcp.AtriumTCPHeader;
 import org.opendaylight.atrium.routingservice.config.api.RoutingConfigService;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924.IpAddress;
@@ -230,7 +230,7 @@ public class TunnellingConnectivityManager implements Ipv4PacketListener {
 
 		byte[] payload = packetReceived.getPayload();
 		try {
-			TCPHeader header = TCPHeader.decodeTCPHeader(payload, offset);
+			AtriumTCPHeader header = AtriumTCPHeader.decodeTCPHeader(payload, offset);
 
 			if (header.getSourcePort() == BGP_PORT || header.getDestinationPort() == BGP_PORT
 					|| ipv4Packet.getProtocol() == KnownIpProtocols.Icmp) {
@@ -252,8 +252,12 @@ public class TunnellingConnectivityManager implements Ipv4PacketListener {
 				NodeConnectorRef egressNodeConnectorRef = null;
 				if (ingressNodeId.equals(bgpSpeaker.getAttachmentDpId())
 						&& ingressPort.equals(bgpSpeaker.getAttachmentPort())) {
-					BgpPeer bgpPeer = configService.getBgpPeerByIpAddress(new IpAddress(dstAddress));
-					egressNodeConnectorRef = AtriumUtils.getNodeConnRef(bgpPeer.getPeerDpId(), bgpPeer.getPeerPort());
+					
+					BgpPeer bgpPeer = configService.getBgpPeerByIpAddress(new IpAddress((dstAddress)));
+					if(bgpPeer != null) {
+						egressNodeConnectorRef = AtriumUtils.getNodeConnRef(bgpPeer.getPeerDpId(), bgpPeer.getPeerPort());
+					}
+					
 				}
 
 				for (InterfaceAddresses addr : bgpSpeaker.getInterfaceAddresses()) {
@@ -267,7 +271,7 @@ public class TunnellingConnectivityManager implements Ipv4PacketListener {
 				sendPacketOut(payload, egressNodeConnectorRef);
 			}
 
-		} catch (TCPDecodeException e) {
+		} catch (AtriumTCPDecodeException e) {
 			e.printStackTrace();
 		}
 

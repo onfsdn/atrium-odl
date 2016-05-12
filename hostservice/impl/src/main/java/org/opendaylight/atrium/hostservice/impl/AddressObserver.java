@@ -1,10 +1,12 @@
 /*
- * This module is inserted by wipro and it is taken from 
- * https://github.com/opendaylight/l2switch/blob/stable/lithium/hosttracker/implementation/src/main/java/org/opendaylight/l2switch/hosttracker/plugin/internal/SimpleAddressObserver.java
+ * Copyright (c) 2015 Wipro Ltd. and others.  All rights reserved.
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
+
+
 package org.opendaylight.atrium.hostservice.impl;
 
 import java.math.BigInteger;

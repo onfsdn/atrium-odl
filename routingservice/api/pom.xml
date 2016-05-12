@@ -33,11 +33,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.opendaylight.atrium</groupId>
-			<artifactId>bgpservice-api</artifactId>
-			<version>${atrium.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.opendaylight.atrium</groupId>
 			<artifactId>hostservice-api</artifactId>
 			<version>${atrium.version}</version>
 		</dependency>
@@ -61,5 +56,15 @@
 			<artifactId>ietf-inet-types</artifactId>
 			<version>${ietf.inet.types.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.bgpcep</groupId>
+			<artifactId>bgp-rib-api</artifactId>
+			<version>${bgpcep.version}</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.opendaylight.bgpcep</groupId>
+  		  <artifactId>bgp-inet</artifactId>
+  		  <version>${bgpcep.version}</version>
+		</dependency>			
 	</dependencies>
 </project>

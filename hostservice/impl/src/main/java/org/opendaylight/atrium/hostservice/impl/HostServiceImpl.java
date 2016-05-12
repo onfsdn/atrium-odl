@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.opendaylight.atrium.atriumutil.AtriumMacAddress;
-import org.opendaylight.atrium.atriumutil.IpAddress;
+import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
 import org.opendaylight.atrium.hostservice.api.AddressUpdateEvent;
 import org.opendaylight.atrium.hostservice.api.AddressUpdateListener;
 import org.opendaylight.atrium.hostservice.api.Host;
@@ -90,24 +90,24 @@ public class HostServiceImpl
 
 	@Override
 	public void onSessionInitiated(ProviderContext session) {
-		LOG.info("Host service session starterd");
+		LOG.debug("Host service session starterd");
 		hostStore = new ConcurrentHashMap<>();
 	}
 
 	@Override
-	public void startMonitoringIp(IpAddress nhIp) {
-		LOG.info("Adding MAC monitoring for :" + nhIp);
+	public void startMonitoringIp(AtriumIpAddress nhIp) {
+		LOG.debug("Adding MAC monitoring for :" + nhIp);
 		monitor.addMonitoringFor(nhIp);
 	}
 
 	@Override
-	public Set<Host> getHostsByIp(IpAddress ip) {
+	public Set<Host> getHostsByIp(AtriumIpAddress ip) {
 		return null;
 
 	}
 
 	@Override
-	public ConnectorAddress getAddressByIp(IpAddress ip) {
+	public ConnectorAddress getAddressByIp(AtriumIpAddress ip) {
 		return addressTracker.getAddress(ip);
 	}
 
@@ -172,14 +172,14 @@ public class HostServiceImpl
 		checkNotNull(host);
 		synchronized (hostStore) {
 			if (!hostStore.containsKey(hostId)) {
-				LOG.info("Hoststore does not contain key :" + hostId + " .Adding.");
+				LOG.debug("Hoststore does not contain key :" + hostId + " .Adding.");
 				hostStore.put(hostId, host);
 			}
 		}
 	}
 
 	@Override
-	public AtriumMacAddress getMacAddressByIp(IpAddress ip) {
+	public AtriumMacAddress getMacAddressByIp(AtriumIpAddress ip) {
 		Host host = getHost(new HostId(ip.toString()));
 		if (host == null) {
 			return null;
@@ -188,11 +188,11 @@ public class HostServiceImpl
 		for (ConnectorAddress address : addresses) {
 			Ipv4Address ipv4Address = address.getIp().getIpv4Address();
 			Ipv6Address ipv6Address = address.getIp().getIpv6Address();
-			IpAddress atriumIp = null;
+			AtriumIpAddress atriumIp = null;
 			if (ipv4Address != null) {
-				atriumIp = IpAddress.valueOf(ipv4Address.getValue());
+				atriumIp = AtriumIpAddress.valueOf(ipv4Address.getValue());
 			} else if (ipv6Address != null) {
-				atriumIp = IpAddress.valueOf(ipv6Address.getValue());
+				atriumIp = AtriumIpAddress.valueOf(ipv6Address.getValue());
 			}
 
 			if (atriumIp != null && atriumIp.equals(ip)) {
@@ -205,36 +205,36 @@ public class HostServiceImpl
 	public void updateAddress(AddressUpdateEvent event) {
 		checkNotNull(event);
 		checkNotNull(event.getAddress());
-		addressTracker.addAddress(IpAddress.valueOf(event.getAddress().getIp().toString()), event.getAddress());
+		addressTracker.addAddress(AtriumIpAddress.valueOf(event.getAddress().getIp().toString()), event.getAddress());
 	}
 
 	class AddressTracker {
-		private ConcurrentHashMap<IpAddress, ConnectorAddress> addressStore;
+		private ConcurrentHashMap<AtriumIpAddress, ConnectorAddress> addressStore;
 
 		public AddressTracker() {
 			addressStore = new ConcurrentHashMap<>();
 		}
 
-		public void addAddress(IpAddress ip, ConnectorAddress address) {
+		public void addAddress(AtriumIpAddress ip, ConnectorAddress address) {
 
 			synchronized (addressStore) {
 				addressStore.put(ip, address);
 			}
 		}
 
-		public void updateAddress(IpAddress ip, ConnectorAddress address) {
+		public void updateAddress(AtriumIpAddress ip, ConnectorAddress address) {
 			synchronized (addressStore) {
 				addressStore.replace(ip, address);
 			}
 		}
 
-		public void deleteAddress(IpAddress ip) {
+		public void deleteAddress(AtriumIpAddress ip) {
 			synchronized (addressStore) {
 				addressStore.remove(ip);
 			}
 		}
 
-		public ConnectorAddress getAddress(IpAddress ip) {
+		public ConnectorAddress getAddress(AtriumIpAddress ip) {
 			return addressStore.get(ip);
 		}
 

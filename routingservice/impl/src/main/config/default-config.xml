@@ -24,6 +24,12 @@
 							xmlns:binding="urn:opendaylight:params:xml:ns:yang:controller:md:sal:binding">binding:binding-broker-osgi-registry</type>
 						<name>binding-osgi-broker</name>
 					</broker>
+					<data-broker>
+						<type
+							xmlns:binding="urn:opendaylight:params:xml:ns:yang:controller:md:sal:binding">binding:binding-async-data-broker
+						</type>
+						<name>binding-data-broker</name>
+					</data-broker>					
 					<notification-service>
 						<type
 							xmlns:binding="urn:opendaylight:params:xml:ns:yang:controller:md:sal:binding">
@@ -36,16 +42,15 @@
 						</type>
 						<name>routingconfig</name>
 					</routingconfig>
-					<bgpservice>
-						<type xmlns:bgpservice="urn:opendaylight:params:xml:ns:yang:bgpservice:api">bgpservice:bgpservice-api
-						</type>
-						<name>bgpservice</name>
-					</bgpservice>
 					<hostservice>
 						<type xmlns:hostservice="urn:opendaylight:params:xml:ns:yang:hostservice:api">hostservice:hostservice-api
 						</type>
 						<name>hostservice</name>
 					</hostservice>
+                    <local-rib>
+                        <type xmlns:prefix="urn:opendaylight:params:xml:ns:yang:controller:bgp:rib:cfg">prefix:rib</type>
+                        <name>atrium-bgp-rib</name>
+                    </local-rib>
 				</module>
 			</modules>
 			<services xmlns="urn:opendaylight:params:xml:ns:yang:controller:config">
