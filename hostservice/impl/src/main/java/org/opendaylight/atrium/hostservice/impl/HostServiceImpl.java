@@ -14,8 +14,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import org.opendaylight.atrium.atriumutil.AtriumMacAddress;
-import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
 import org.opendaylight.atrium.hostservice.api.AddressUpdateEvent;
 import org.opendaylight.atrium.hostservice.api.AddressUpdateListener;
 import org.opendaylight.atrium.hostservice.api.Host;
@@ -24,6 +22,8 @@ import org.opendaylight.atrium.hostservice.api.HostListener;
 import org.opendaylight.atrium.hostservice.api.HostService;
 import org.opendaylight.atrium.hostservice.api.HostUpdatesListener;
 import org.opendaylight.atrium.routingservice.config.api.RoutingConfigService;
+import org.opendaylight.atrium.util.AtriumIpAddress;
+import org.opendaylight.atrium.util.AtriumMacAddress;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker.ProviderContext;
 import org.opendaylight.controller.sal.binding.api.BindingAwareProvider;

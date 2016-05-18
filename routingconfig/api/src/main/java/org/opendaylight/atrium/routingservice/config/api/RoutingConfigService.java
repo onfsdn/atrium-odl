@@ -9,8 +9,8 @@ package org.opendaylight.atrium.routingservice.config.api;
 
 import java.util.Set;
 
-import org.opendaylight.atrium.atriumutil.AtriumInterface;
-import org.opendaylight.atrium.atriumutil.AtriumIpPrefix;
+import org.opendaylight.atrium.util.AtriumInterface;
+import org.opendaylight.atrium.util.AtriumIpPrefix;
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924.IpAddress;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.inventory.rev130819.node.NodeConnector;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.bgpconfig.api.rev150725.BgpPeers;

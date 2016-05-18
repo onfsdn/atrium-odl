@@ -12,6 +12,8 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import org.opendaylight.atrium.util.AtriumInterfaceIpAddress;
+import org.opendaylight.atrium.util.AtriumIpPrefix;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.ReadOnlyTransaction;
 import org.opendaylight.controller.md.sal.common.api.data.LogicalDatastoreType;

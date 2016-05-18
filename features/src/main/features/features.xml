@@ -15,17 +15,28 @@
 	</repository>
 	<repository>mvn:org.opendaylight.snmp/features-snmp/${snmp.version}/xml/features
 	</repository>
-        <repository>mvn:org.opendaylight.bgpcep/features-bgp/${bgpcep.version}/xml/features
-        </repository>
+	<repository>mvn:org.opendaylight.bgpcep/features-bgp/${bgpcep.version}/xml/features
+	</repository>
 
-	<feature name='atrium-thirdparty' version='${atrium.version}'
+	<feature name='atrium-thirdparty-utils' version='${atrium.version}'
+		description='OpenDaylight :Atrium : thirdparty utilities'>
+		<feature version='${mdsal.version}'>odl-mdsal-broker</feature>
+		<feature version='${mdsal.model.version}'>odl-mdsal-models</feature>
+
+		<!--  Classes ported from ONOS -->
+		<bundle>mvn:org.opendaylight.atrium/atrium-thirdparty-utils/${atrium.version}
+		</bundle>
+		
+	</feature>
+
+	<feature name='atrium-thirdparty-lib' version='${atrium.version}'
 		description='OpenDaylight :Atrium : thirdparty '>
 		<feature version='${mdsal.version}'>odl-mdsal-broker</feature>
 		<feature version='${mdsal.model.version}'>odl-mdsal-models</feature>
 		<feature version="${openflowplugin.version}">odl-openflowplugin-southbound</feature>
 		<feature version="${openflowplugin.version}">odl-openflowplugin-flow-services</feature>
 		<feature version="${l2switch.version}">odl-l2switch-packethandler</feature>
-		
+
 		<bundle>mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}
 		</bundle>
 		<bundle>mvn:com.fasterxml.jackson.core/jackson-databind/${jackson.version}
@@ -34,19 +45,18 @@
 		</bundle>
 		<bundle>mvn:org.opendaylight.controller.model/model-inventory/${mdsal.version}
 		</bundle>
-		<bundle>mvn:org.opendaylight.atrium/atrium-thirdparty/${atrium.version}
+		<!--  External jar libraries used  -->
+		<bundle>mvn:org.opendaylight.atrium/atrium-thirdparty-lib/${atrium.version}
 		</bundle>
 		<configfile finalname="configuration/initial/sdnip.json">mvn:org.opendaylight.atrium/atrium-initial-config/${atrium.version}/xml/sdnipconf
 		</configfile>
 		<configfile finalname="configuration/initial/addresses.json">mvn:org.opendaylight.atrium/atrium-initial-config/${atrium.version}/xml/addressesconf
 		</configfile>
-		<!-- 
-
-		 -->		
 	</feature>
 	<feature name='atrium-utilservice' version='${atrium.version}'
 		description='OpenDaylight :: atrium-utilservice '>
-		<feature version='${atrium.version}'>atrium-thirdparty</feature>
+		<feature version='${atrium.version}'>atrium-thirdparty-lib</feature>
+		<feature version='${atrium.version}'>atrium-thirdparty-utils</feature>
 		<bundle>mvn:org.opendaylight.atrium/atriumutil-api/${atrium.version}
 		</bundle>
 		<bundle>mvn:org.opendaylight.atrium/atriumutil-impl/${atrium.version}
@@ -57,7 +67,7 @@
 		<feature version='${atrium.version}'>atrium-utilservice</feature>
 		<feature version='${bgpcep.version}'>odl-bgpcep-bgp-all</feature>
 		<configfile finalname="etc/opendaylight/karaf/atrium-bgp-config.xml">mvn:org.opendaylight.atrium/atrium-initial-config/${atrium.version}/xml/bgpcepconf
-		</configfile>		
+		</configfile>
 	</feature>
 	<feature name='atrium-routingconfig' version='${atrium.version}'
 		description='OpenDaylight :: routingconfig'>
@@ -96,7 +106,7 @@
 		<feature version='${atrium.version}'>atrium-routingconfig</feature>
 		<feature version='${atrium.version}'>atrium-hostservice</feature>
 		<feature version='${atrium.version}'>odl-didm-all</feature>
-		<bundle>mvn:org.opendaylight.atrium/atrium-thirdparty/${atrium.version}
+		<bundle>mvn:org.opendaylight.atrium/atrium-thirdparty-lib/${atrium.version}
 		</bundle>
 		<bundle>mvn:org.opendaylight.atrium/hostservice-api/${atrium.version}
 		</bundle>
@@ -118,6 +128,8 @@
 		description="OpenDaylight :: bgprouter ">
 		<feature version='${mdsal.version}'>odl-mdsal-broker</feature>
 		<feature version='${mdsal.model.version}'>odl-mdsal-models</feature>
+		<feature version='${atrium.version}'>atrium-thirdparty-lib</feature>
+		<feature version='${atrium.version}'>atrium-thirdparty-utils</feature>		
 		<feature version='${atrium.version}'>atrium-utilservice</feature>
 		<feature version='${atrium.version}'>atrium-hostservice</feature>
 		<feature version='${atrium.version}'>atrium-routingservice</feature>
@@ -130,7 +142,7 @@
 		</bundle>
 		<bundle>mvn:org.opendaylight.l2switch.packethandler/packethandler-model/${l2switch.version}
 		</bundle>
-		<bundle>mvn:org.opendaylight.atrium/atrium-thirdparty/${atrium.version}
+		<bundle>mvn:org.opendaylight.atrium/atrium-thirdparty-lib/${atrium.version}
 		</bundle>
 		<bundle>mvn:org.opendaylight.atrium/bgprouter-api/${atrium.version}
 		</bundle>

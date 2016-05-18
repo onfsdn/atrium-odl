@@ -11,9 +11,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Objects;
 
-import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
-import org.opendaylight.atrium.atriumutil.AtriumIpPrefix;
-
+import org.opendaylight.atrium.util.AtriumIpAddress;
+import org.opendaylight.atrium.util.AtriumIpPrefix;
 
 import com.google.common.base.MoreObjects;
 

@@ -13,6 +13,7 @@
 	<modules>
 		<module>commons/binding-parent</module>
 		<module>commons/config-parent</module>
+		<module>thirdparty</module>
 		<module>utils</module>
 		<module>utils/config</module>
 		<module>routingconfig</module>

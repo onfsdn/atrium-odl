@@ -24,12 +24,16 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
 			<artifactId>routingconfig-api</artifactId>
 			<version>${atrium.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.opendaylight.atrium</groupId>
 			<artifactId>atriumutil-api</artifactId>
 			<version>${atrium.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.atrium</groupId>
+			<artifactId>atrium-thirdparty-utils</artifactId>
+			<version>${atrium.version}</version>
+		</dependency>		
 		<dependency>
 			<groupId>org.opendaylight.atrium</groupId>
 			<artifactId>hostservice-api</artifactId>

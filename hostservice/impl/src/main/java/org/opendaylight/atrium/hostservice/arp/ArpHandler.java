@@ -134,11 +134,11 @@ public class ArpHandler implements ArpPacketListener {
 			// LOG.info("Address not found in configuration.. Cant resolve
 			// arp...");
 			if (hostService != null) {
-				org.opendaylight.atrium.atriumutil.AtriumIpAddress atriumIp = null;
+				org.opendaylight.atrium.util.AtriumIpAddress atriumIp = null;
 				if (destIp != null) {
-					atriumIp = org.opendaylight.atrium.atriumutil.AtriumIpAddress.valueOf(destIp.getValue());
+					atriumIp = org.opendaylight.atrium.util.AtriumIpAddress.valueOf(destIp.getValue());
 				}
-				org.opendaylight.atrium.atriumutil.AtriumMacAddress mac = hostService.getMacAddressByIp(atriumIp);
+				org.opendaylight.atrium.util.AtriumMacAddress mac = hostService.getMacAddressByIp(atriumIp);
 				if (mac != null) {
 					MacAddress arpMac = new MacAddress(mac.toString());
 					ArpMessageAddress senderArpMessageAddress = new ArpMessageAddress(arpMac, destIp);

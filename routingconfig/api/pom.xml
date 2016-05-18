@@ -21,7 +21,7 @@
 			<groupId>org.opendaylight.atrium</groupId>
 			<artifactId>atriumutil-api</artifactId>
 			<version>${atrium.version}</version>
-		</dependency>
+		</dependency>	
 		<dependency>
 			<groupId>org.opendaylight.yangtools</groupId>
 			<artifactId>yang-common</artifactId>

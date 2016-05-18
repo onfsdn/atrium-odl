@@ -9,10 +9,10 @@ package org.opendaylight.atrium.routingservice.api;
 
 import java.util.Collection;
 
-import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
-import org.opendaylight.atrium.atriumutil.AtriumMacAddress;
 import org.opendaylight.atrium.hostservice.api.HostService;
 import org.opendaylight.atrium.routingservice.config.api.RoutingConfigService;
+import org.opendaylight.atrium.util.AtriumIpAddress;
+import org.opendaylight.atrium.util.AtriumMacAddress;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.inventory.rev130819.node.NodeConnector;
 
 /**

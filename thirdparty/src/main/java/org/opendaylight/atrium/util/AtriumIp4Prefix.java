@@ -1,12 +1,4 @@
 /*
- * Copyright (c) 2015 Wipro Ltd. and others.  All rights reserved.
- *
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License v1.0 which accompanies this distribution,
- * and is available at http://www.eclipse.org/legal/epl-v10.html
- */
-
-/*
  * Copyright 2014 Open Networking Laboratory
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.opendaylight.atrium.atriumutil;
+package org.opendaylight.atrium.util;
 
-import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
+import org.opendaylight.atrium.util.AtriumIpAddress;
 
 /**
  * The class representing an IPv4 network address.

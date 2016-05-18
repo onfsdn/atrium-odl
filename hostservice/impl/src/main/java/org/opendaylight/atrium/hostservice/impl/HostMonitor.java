@@ -21,15 +21,15 @@ import java.util.concurrent.TimeUnit;
 
 import org.jboss.netty.util.Timeout;
 import org.jboss.netty.util.TimerTask;
-import org.opendaylight.atrium.atriumutil.AtriumMacAddress;
-import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
-import org.opendaylight.atrium.atriumutil.AtriumTimer;
 import org.opendaylight.atrium.hostservice.api.ArpMessageAddress;
 import org.opendaylight.atrium.hostservice.api.Host;
 import org.opendaylight.atrium.hostservice.api.HostEvent;
 import org.opendaylight.atrium.hostservice.api.HostService;
 import org.opendaylight.atrium.hostservice.api.HostUpdatesListener;
 import org.opendaylight.atrium.routingservice.config.api.RoutingConfigService;
+import org.opendaylight.atrium.util.AtriumIpAddress;
+import org.opendaylight.atrium.util.AtriumMacAddress;
+import org.opendaylight.atrium.util.AtriumTimer;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.DataChangeListener;
 import org.opendaylight.controller.md.sal.binding.api.ReadOnlyTransaction;
@@ -283,7 +283,7 @@ public class HostMonitor implements TimerTask {
 				.getIp().getIpv6Address();
 		HostId hostId = null;
 		if (ipv4Address != null) {
-			org.opendaylight.atrium.atriumutil.AtriumIpAddress ip = org.opendaylight.atrium.atriumutil.AtriumIpAddress
+			org.opendaylight.atrium.util.AtriumIpAddress ip = org.opendaylight.atrium.util.AtriumIpAddress
 					.valueOf(ipv4Address.getValue());
 			hostId = new HostId(ipv4Address.getValue());
 			if (hostService.getHost(hostId) == null) {
@@ -291,7 +291,7 @@ public class HostMonitor implements TimerTask {
 				hostUpdatesListener.addHost(hostId, host);
 			}
 		} else if (ipv6Address != null) {
-			org.opendaylight.atrium.atriumutil.AtriumIpAddress ip = org.opendaylight.atrium.atriumutil.AtriumIpAddress
+			org.opendaylight.atrium.util.AtriumIpAddress ip = org.opendaylight.atrium.util.AtriumIpAddress
 					.valueOf(ipv6Address.getValue());
 			hostId = new HostId(ipv6Address.getValue());
 			if (hostService.getHost(hostId) == null) {
@@ -311,7 +311,7 @@ public class HostMonitor implements TimerTask {
 				.getIp().getIpv6Address();
 		HostId hostId = null;
 		if (ipv4Address != null) {
-			org.opendaylight.atrium.atriumutil.AtriumIpAddress ip = org.opendaylight.atrium.atriumutil.AtriumIpAddress
+			org.opendaylight.atrium.util.AtriumIpAddress ip = org.opendaylight.atrium.util.AtriumIpAddress
 					.valueOf(ipv4Address.getValue());
 			hostId = new HostId(ip.toString());
 			if (hostService.getHost(hostId) == null) {
@@ -320,7 +320,7 @@ public class HostMonitor implements TimerTask {
 		}
 
 		if (ipv6Address != null) {
-			org.opendaylight.atrium.atriumutil.AtriumIpAddress ip = org.opendaylight.atrium.atriumutil.AtriumIpAddress
+			org.opendaylight.atrium.util.AtriumIpAddress ip = org.opendaylight.atrium.util.AtriumIpAddress
 					.valueOf(ipv6Address.getValue());
 			hostId = new HostId(ipv6Address.getValue());
 			if (hostService.getHost(hostId) == null) {
@@ -337,13 +337,13 @@ public class HostMonitor implements TimerTask {
 				.getIp().getIpv6Address();
 		HostId hostId = null;
 		if (ipv4Address != null) {
-			org.opendaylight.atrium.atriumutil.AtriumIpAddress ip = org.opendaylight.atrium.atriumutil.AtriumIpAddress
+			org.opendaylight.atrium.util.AtriumIpAddress ip = org.opendaylight.atrium.util.AtriumIpAddress
 					.valueOf(ipv4Address.getValue());
 			hostId = new HostId(ip.toString());
 			hostUpdatesListener.deleteHost(hostId);
 		}
 		if (ipv6Address != null) {
-			org.opendaylight.atrium.atriumutil.AtriumIpAddress ip = org.opendaylight.atrium.atriumutil.AtriumIpAddress
+			org.opendaylight.atrium.util.AtriumIpAddress ip = org.opendaylight.atrium.util.AtriumIpAddress
 					.valueOf(ipv6Address.getValue());
 			hostId = new HostId(ip.toString());
 			hostUpdatesListener.deleteHost(hostId);

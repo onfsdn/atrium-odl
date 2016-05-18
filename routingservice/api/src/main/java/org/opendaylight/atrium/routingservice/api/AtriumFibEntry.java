@@ -8,12 +8,12 @@
 package org.opendaylight.atrium.routingservice.api;
 
 import com.google.common.base.MoreObjects;
-import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
-import org.opendaylight.atrium.atriumutil.AtriumIpPrefix;
-import org.opendaylight.atrium.atriumutil.AtriumMacAddress;
-
 
 import java.util.Objects;
+
+import org.opendaylight.atrium.util.AtriumIpAddress;
+import org.opendaylight.atrium.util.AtriumIpPrefix;
+import org.opendaylight.atrium.util.AtriumMacAddress;
 
 /**
  * An entry in the Forwarding Information Base (FIB).

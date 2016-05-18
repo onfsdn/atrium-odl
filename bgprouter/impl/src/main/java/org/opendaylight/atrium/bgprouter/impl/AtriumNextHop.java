@@ -25,8 +25,8 @@ package org.opendaylight.atrium.bgprouter.impl;
 
 import java.util.Objects;
 
-import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
-import org.opendaylight.atrium.atriumutil.AtriumMacAddress;
+import org.opendaylight.atrium.util.AtriumIpAddress;
+import org.opendaylight.atrium.util.AtriumMacAddress;
 
 import com.google.common.base.MoreObjects;
 

@@ -23,9 +23,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.opendaylight.atrium.atriumutil.AtriumMacAddress;
-import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
-import org.opendaylight.atrium.atriumutil.AtriumIpPrefix;
 import org.opendaylight.atrium.hostservice.api.Host;
 import org.opendaylight.atrium.hostservice.api.HostEvent;
 import org.opendaylight.atrium.hostservice.api.HostListener;
@@ -37,7 +34,9 @@ import org.opendaylight.atrium.routingservice.api.RouteEntry;
 import org.opendaylight.atrium.routingservice.api.RoutingService;
 import org.opendaylight.atrium.routingservice.api.RouteUpdate;
 import org.opendaylight.atrium.routingservice.config.api.RoutingConfigService;
-
+import org.opendaylight.atrium.util.AtriumIpAddress;
+import org.opendaylight.atrium.util.AtriumIpPrefix;
+import org.opendaylight.atrium.util.AtriumMacAddress;
 import org.opendaylight.controller.md.sal.binding.api.BindingTransactionChain;
 import org.opendaylight.controller.md.sal.binding.api.DataTreeChangeListener;
 import org.opendaylight.controller.md.sal.binding.api.DataTreeChangeService;

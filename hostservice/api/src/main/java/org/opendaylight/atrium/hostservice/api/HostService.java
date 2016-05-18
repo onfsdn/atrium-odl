@@ -9,9 +9,9 @@ package org.opendaylight.atrium.hostservice.api;
 
 import java.util.Set;
 
-import org.opendaylight.atrium.atriumutil.AtriumMacAddress;
-import org.opendaylight.atrium.atriumutil.AtriumIpAddress;
 import org.opendaylight.atrium.routingservice.config.api.RoutingConfigService;
+import org.opendaylight.atrium.util.AtriumIpAddress;
+import org.opendaylight.atrium.util.AtriumMacAddress;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService;
