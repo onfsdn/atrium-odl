@@ -8,7 +8,10 @@
 package org.opendaylight.atrium.routingservice.config;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.io.File;
@@ -454,5 +457,31 @@ public class RoutingConfigServiceImpl implements RoutingConfigService, BindingAw
 			interfaceSet.add(matchingInterface);
 		}
 		return interfaceSet;
+	}
+	
+	public List<BgpSpeaker> getBgpSpeakerFromMap() {
+		List<BgpSpeaker> bgpSpeakers = null;
+		
+		if(bgpSpeakerMap != null) {
+			bgpSpeakers = new ArrayList<BgpSpeaker>();
+			Iterator<BgpSpeaker> iterator = bgpSpeakerMap.values().iterator();
+			while(iterator.hasNext()) {
+				bgpSpeakers.add(iterator.next());
+			}
+		}
+		return bgpSpeakers;
+	}
+	
+	public List<BgpPeer> getBgpPeerFromMap() {
+		List<BgpPeer> bgpPeers = null;
+		
+		if(bgpPeerMap != null) {
+			bgpPeers = new ArrayList<BgpPeer>();
+			Iterator<BgpPeer> iterator = bgpPeerMap.values().iterator();
+			while(iterator.hasNext()) {
+				bgpPeers.add(iterator.next());
+			}
+		}
+		return bgpPeers;
 	}
 }
