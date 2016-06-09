@@ -1,0 +1,54 @@
+/*
+ * Copyright (c) 2016 Extreme Networks.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
+module extreme-didm {
+
+    namespace "urn:opendaylight:params:xml:ns:yang:didm:vendor:extreme";
+    prefix extreme;
+
+    import config { prefix config; revision-date 2013-04-05; }
+    import opendaylight-md-sal-binding { prefix mdsal; revision-date 2013-10-28; }
+    import didm-identification { prefix id; revision-date "2015-02-02"; }
+
+    revision "2015-02-11" { description "Initial implementation."; }
+
+    identity extreme-device-type {
+        description "Device type for Extreme devices";
+        base id:device-type-base;
+    }
+
+    identity extreme-didm {
+            base config:module-type;
+
+            config:java-name-prefix Extreme;
+    }
+
+    augment "/config:modules/config:module/config:configuration" {
+        case extreme-didm {
+            when "/config:modules/config:module/config:type = 'extreme-didm'";
+
+           container data-broker {
+                uses config:service-ref {
+                    refine type {
+                        mandatory false;
+                        config:required-identity mdsal:binding-async-data-broker;
+                    }
+                }
+            }
+            
+            container rpc-registry {
+               uses config:service-ref {
+                   refine type {
+                       mandatory true;
+                       config:required-identity mdsal:binding-rpc-registry;
+                   }
+               }
+            }
+        }
+    }
+
+}
