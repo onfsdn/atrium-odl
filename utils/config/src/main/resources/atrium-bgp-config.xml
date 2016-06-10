@@ -16,7 +16,7 @@
     <required-capabilities>
         <capability>urn:opendaylight:params:xml:ns:yang:controller:bgp:rib:cfg?module=odl-bgp-rib-cfg&amp;revision=2013-07-01</capability>
         <capability>urn:opendaylight:params:xml:ns:yang:controller:bgp:rib:spi?module=odl-bgp-rib-spi-cfg&amp;revision=2013-11-15</capability>
-        <capability>urn:opendaylight:params:xml:ns:yang:controller:bgp:rib:impl?module=odl-bgp-rib-impl-cfg&amp;revision=2013-04-09</capability>
+        <capability>urn:opendaylight:params:xml:ns:yang:controller:bgp:rib:impl?module=odl-bgp-rib-impl-cfg&amp;revision=2016-03-30</capability>
         <capability>urn:opendaylight:params:xml:ns:yang:controller:bgp:topology:provider?module=odl-bgp-topology-provider-cfg&amp;revision=2013-11-15</capability>
         <capability>urn:opendaylight:params:xml:ns:yang:controller:bgp:reachability:ipv6?module=odl-bgp-treachability-ipv6-cfg&amp;revision=2013-11-15</capability>
         <capability>urn:opendaylight:params:xml:ns:yang:controller:bgp:reachability:ipv4?module=odl-bgp-treachability-ipv4-cfg&amp;revision=2013-11-15</capability>
@@ -172,6 +172,7 @@
                         <type xmlns:binding="urn:opendaylight:params:xml:ns:yang:controller:md:sal:binding">binding:binding-codec-tree-factory</type>
                         <name>runtime-mapping-singleton</name>
                     </codec-tree-factory>
+                    <!--
                     <session-reconnect-strategy>
                         <type xmlns:prefix="urn:opendaylight:params:xml:ns:yang:controller:protocol:framework">prefix:reconnect-strategy-factory</type>
                         <name>example-reconnect-strategy-factory</name>
@@ -180,6 +181,7 @@
                         <type xmlns:prefix="urn:opendaylight:params:xml:ns:yang:controller:protocol:framework">prefix:reconnect-strategy-factory</type>
                         <name>example-reconnect-strategy-factory</name>
                     </tcp-reconnect-strategy>
+                    -->
                 </module>
                 <module>
                     <type xmlns:prefix="urn:opendaylight:params:xml:ns:yang:controller:bgp:reachability:ipv4">prefix:bgp-reachability-ipv4</type>
