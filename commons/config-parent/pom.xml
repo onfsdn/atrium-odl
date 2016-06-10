@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.opendaylight.controller</groupId>
 		<artifactId>config-parent</artifactId>
-		<version>0.4.0-Beryllium</version>
+		<version>0.5.0-SNAPSHOT</version>
 		<relativePath />
 	</parent>
 
@@ -20,20 +20,20 @@
 
 	<properties>
 		<atrium.version>1.0-SNAPSHOT</atrium.version>
-		<ietf.topology.version>2013.10.21.8-Beryllium</ietf.topology.version>
-		<ietf.inet.types.version>2010.09.24.8-Beryllium</ietf.inet.types.version>
-		<ietf.yang.types.version>2010.09.24.8-Beryllium</ietf.yang.types.version>
-		<ietf.interfaces.version>2014.05.08.8-Beryllium</ietf.interfaces.version>
-		<iana.if.type.version>2014.05.08.8-Beryllium</iana.if.type.version>
-		<yang.ext.version>2013.09.07.8-Beryllium</yang.ext.version>
-		<openflowplugin.version>0.2.0-Beryllium</openflowplugin.version>
-		<l2switch.version>0.3.0-Beryllium</l2switch.version>
+		<ietf.topology.version>2013.10.21.9-SNAPSHOT</ietf.topology.version>
+		<ietf.inet.types.version>2010.09.24.9-SNAPSHOT</ietf.inet.types.version>
+		<ietf.yang.types.version>2010.09.24.9-SNAPSHOT</ietf.yang.types.version>
+		<ietf.interfaces.version>2014.05.08.9-SNAPSHOT</ietf.interfaces.version>
+		<iana.if.type.version>2014.05.08.9-SNAPSHOT</iana.if.type.version>
+		<yang.ext.version>2013.09.07.9-SNAPSHOT</yang.ext.version>
+		<openflowplugin.version>0.3.0-SNAPSHOT</openflowplugin.version>
+		<l2switch.version>0.4.0-SNAPSHOT</l2switch.version>
 		<checkstyle.skip>true</checkstyle.skip>
 		<console.version>3.0.3</console.version>
-		<snmp.version>1.1.0-Beryllium</snmp.version>
+		<snmp.version>1.2.0-SNAPSHOT</snmp.version>
 		<didm.version>0.2.0-SNAPSHOT</didm.version>
-		<liblldp.version>0.10.0-Beryllium</liblldp.version>
-		<bgpcep.version>0.5.0-Beryllium</bgpcep.version>
+		<liblldp.version>0.11.0-SNAPSHOT</liblldp.version>
+		<bgpcep.version>0.6.0-SNAPSHOT</bgpcep.version>
 	</properties>
 	<dependencies>
 		<!-- Testing Dependencies -->
