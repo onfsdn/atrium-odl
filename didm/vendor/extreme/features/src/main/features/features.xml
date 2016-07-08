@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+(c) Copyright 2016 Extreme Networks.
+
+This program and the accompanying materials are made available under the
+terms of the Eclipse Public License v1.0 which accompanies this distribution,
+and is available at http://www.eclipse.org/legal/epl-v10.html
+-->
+<features name="odl-didm-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
+
+  <repository>mvn:org.opendaylight.didm/didm-features/${didm.version}/xml/features</repository>
+
+  <feature name='odl-didm-extreme' version='${project.version}' description='OpenDaylight :: DIDM Extreme reference driver'>
+    <feature version='${didm.version}'>odl-didm-identification</feature>
+    <feature version='${didm.version}'>odl-didm-drivers-api</feature>
+    <bundle>mvn:org.opendaylight.didm.extreme/extreme-impl/${project.version}</bundle>
+    <configfile finalname="${config.configfile.directory}/didm-extreme.xml">mvn:org.opendaylight.didm.extreme/extreme-impl/${project.version}/xml/config</configfile>
+  </feature>
+
+</features>

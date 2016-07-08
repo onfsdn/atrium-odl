@@ -30,6 +30,8 @@
     <module>vendor/mininet/features</module>
     <module>vendor/hp/3800</module>
     <module>vendor/hp/features</module>
+    <module>vendor/extreme/impl</module>
+    <module>vendor/extreme/features</module>
     <module>artifacts</module>
     <module>features</module>
     <module>drivers/driver-util</module>
