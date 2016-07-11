@@ -2,7 +2,7 @@
 <metadata modelVersion="1.1.0">
 	<groupId>org.opendaylight.atrium</groupId>
 	<artifactId>routingservice-impl</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<versioning>
 		<snapshot>
 			<localCopy>true</localCopy>
@@ -12,7 +12,7 @@
 			<snapshotVersion>
 				<classifier>config</classifier>
 				<extension>xml</extension>
-				<value>1.0-SNAPSHOT</value>
+				<value>0.0.1-SNAPSHOT</value>
 				<updated>20150807143709</updated>
 			</snapshotVersion>
 		</snapshotVersions>

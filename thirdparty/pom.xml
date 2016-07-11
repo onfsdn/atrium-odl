@@ -9,13 +9,13 @@
 	<parent>
 		<groupId>org.opendaylight.atrium</groupId>
 		<artifactId>config-parent</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../commons/config-parent</relativePath>
 	</parent>
 	<artifactId>atrium-thirdparty-utils</artifactId>
 	<packaging>bundle</packaging>
 	<groupId>org.opendaylight.atrium</groupId>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<properties>
 		<checkstyle.skip>true</checkstyle.skip>
 		<skipTests>true</skipTests>

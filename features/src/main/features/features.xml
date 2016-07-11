@@ -79,13 +79,15 @@
 		<configfile finalname="etc/opendaylight/routingconfig.xml">mvn:org.opendaylight.atrium/routingconfig-impl/${atrium.version}/xml/config
 		</configfile>
 	</feature>
+<!--
 	<feature name='odl-didm-all' version='${atrium.version}'
 		description='OpenDaylight :: didm'>
 		<feature version='${didm.version}'>odl-didm-identification-api</feature>
 		<feature version='${didm.version}'>odl-didm-identification</feature>
 		<feature version='${didm.version}'>odl-didm-drivers-api</feature>
-		<feature version='${didm.version}'>odl-didm-mininet</feature>
+		<feature version='${didm.version}'>odl-didm-ovs-all</feature>
 	</feature>
+-->
 	<feature name="atrium-hostservice" version='${atrium.version}'
 		description='OpenDaylight :: hostservice'>
 		<feature version='${mdsal.version}'>odl-mdsal-broker</feature>
@@ -105,7 +107,7 @@
 		<feature version='${atrium.version}'>atrium-bgpservice</feature>
 		<feature version='${atrium.version}'>atrium-routingconfig</feature>
 		<feature version='${atrium.version}'>atrium-hostservice</feature>
-		<feature version='${atrium.version}'>odl-didm-all</feature>
+		<feature version='${didm.version}'>odl-didm-all</feature>
 		<bundle>mvn:org.opendaylight.atrium/atrium-thirdparty-lib/${atrium.version}
 		</bundle>
 		<bundle>mvn:org.opendaylight.atrium/hostservice-api/${atrium.version}
@@ -124,7 +126,7 @@
 		<configfile finalname="etc/opendaylight/atriumcli.xml">mvn:org.opendaylight.atrium/atrium-cli/${atrium.version}/xml/config
 		</configfile>
 	</feature>
-	<feature name="odl-atrium-all" version="1.0-SNAPSHOT"
+	<feature name="odl-atrium-all" version="0.0.1-SNAPSHOT"
 		description="OpenDaylight :: bgprouter ">
 		<feature version='${mdsal.version}'>odl-mdsal-broker</feature>
 		<feature version='${mdsal.model.version}'>odl-mdsal-models</feature>
