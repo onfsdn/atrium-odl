@@ -16,7 +16,7 @@
 
 	<groupId>org.opendaylight.atrium</groupId>
 	<artifactId>atrium-features</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -27,10 +27,10 @@
 		<yangtools.version>1.0.0-SNAPSHOT</yangtools.version>
 		<mdsal.model.version>0.9.0-SNAPSHOT</mdsal.model.version>
 		<l2switch.version>0.4.0-SNAPSHOT</l2switch.version>
-		<atrium.version>1.0-SNAPSHOT</atrium.version>
+		<atrium.version>0.0.1-SNAPSHOT</atrium.version>
 		<skipTests>true</skipTests>
 		<snmp.version>1.2.0-SNAPSHOT</snmp.version>
-		<didm.version>0.2.0-SNAPSHOT</didm.version>
+		<didm.version>0.3.0-SNAPSHOT</didm.version>
 		<bgpcep.version>0.6.0-SNAPSHOT</bgpcep.version>
 		<jackson.version>2.7.4</jackson.version>
 	</properties>
@@ -66,7 +66,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.opendaylight.didm</groupId>
-			<artifactId>didm-features</artifactId>
+			<artifactId>features-didm</artifactId>
 			<version>${didm.version}</version>
 			<classifier>features</classifier>
 			<type>xml</type>
@@ -113,7 +113,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.opendaylight.didm</groupId>
-			<artifactId>didm-driver-util</artifactId>
+			<artifactId>didm-tools-utils</artifactId>
 			<version>${didm.version}</version>
 		</dependency>
 		<dependency>
@@ -169,13 +169,13 @@
 			<type>xml</type>
 		</dependency>
 		<dependency>
-			<groupId>org.opendaylight.didm.mininet</groupId>
-			<artifactId>mininet-impl</artifactId>
+			<groupId>org.opendaylight.didm</groupId>
+			<artifactId>didm-ovs</artifactId>
 			<version>${didm.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.opendaylight.didm.mininet</groupId>
-			<artifactId>mininet-impl</artifactId>
+			<groupId>org.opendaylight.didm</groupId>
+			<artifactId>didm-ovs</artifactId>
 			<version>${didm.version}</version>
 			<classifier>config</classifier>
 			<type>xml</type>

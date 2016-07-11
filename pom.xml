@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<groupId>org.opendaylight.atrium</groupId>
 	<artifactId>atrium</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<modelVersion>4.0.0</modelVersion>
@@ -20,7 +20,9 @@
 		<module>hostservice</module>
 		<module>routingservice</module>
 		<module>atrium-cli</module>
+<!--
 	        <module>didm</module>
+-->
 		<module>bgprouter</module>
 		<module>features</module>
 		<module>atrium-artifacts</module>

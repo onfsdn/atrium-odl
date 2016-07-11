@@ -10,7 +10,7 @@
   <groupId>org.opendaylight.atrium</groupId>
   <artifactId>atrium-thirdparty-lib</artifactId>
   <packaging>bundle</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.0.1-SNAPSHOT</version>
   <description>ODL Atrium third-party dependencies</description>
   <build>
     <plugins>

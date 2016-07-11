@@ -15,9 +15,9 @@
 	<groupId>org.opendaylight.atrium</groupId>
 	<artifactId>atrium-karaf</artifactId>
 	<name>${project.artifactId}</name>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<properties>
-               <didm.version>0.2.0-SNAPSHOT</didm.version>
+               <didm.version>0.3.0-SNAPSHOT</didm.version>
         </properties>
 
         <prerequisites>
@@ -54,15 +54,15 @@
 		</dependency>
                 <dependency>
                         <groupId>org.opendaylight.didm</groupId>
-                        <artifactId>didm-features</artifactId>
+                        <artifactId>features-didm</artifactId>
                         <version>${didm.version}</version>
                         <classifier>features</classifier>
                         <type>xml</type>
                         <scope>runtime</scope>
                 </dependency>
                 <dependency>
-                        <groupId>org.opendaylight.didm.mininet</groupId>
-                        <artifactId>mininet-features</artifactId>
+                        <groupId>org.opendaylight.didm</groupId>
+                        <artifactId>features-didm-ovs</artifactId>
                         <version>${didm.version}</version>
                         <classifier>features</classifier>
                         <type>xml</type>

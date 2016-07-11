@@ -58,19 +58,20 @@ import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.Pa
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.bgpconfig.api.rev150725.BgpSpeakers;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.bgpconfig.api.rev150725.bgpspeakers.BgpSpeaker;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.bgpconfig.api.rev150725.bgpspeakers.bgpspeaker.InterfaceAddresses;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.openflow.rev150211.FilterInputBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.openflow.rev150211.ForwardInputBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.openflow.rev150211.NextInputBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.openflow.rev150211.Objective.Operation;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.openflow.rev150211.OpenflowFeatureService;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.openflow.rev150211.filter.input.FilterObjectiveBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.openflow.rev150211.forward.input.ForwardingObjective.Flag;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.openflow.rev150211.forward.input.ForwardingObjectiveBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.openflow.rev150211.forward.input.forwarding.objective.MatchBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.openflow.rev150211.next.input.NextObjective.Type;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.openflow.rev150211.next.input.NextObjectiveBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.openflow.rev150211.next.input.next.objective.TrafficTreatment;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.openflow.rev150211.next.input.next.objective.TrafficTreatmentBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.atrium.rev150211.FilterInputBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.atrium.rev150211.ForwardInputBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.atrium.rev150211.NextInputBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.atrium.rev150211.Objective.Operation;
+//import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.openflow.rev150211.OpenflowFeatureService;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.atrium.rev150211.AtriumFlowObjectiveService;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.atrium.rev150211.filter.input.FilterObjectiveBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.atrium.rev150211.forward.input.ForwardingObjective.Flag;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.atrium.rev150211.forward.input.ForwardingObjectiveBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.atrium.rev150211.forward.input.forwarding.objective.MatchBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.atrium.rev150211.next.input.NextObjective.Type;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.atrium.rev150211.next.input.NextObjectiveBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.atrium.rev150211.next.input.next.objective.TrafficTreatment;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.atrium.rev150211.next.input.next.objective.TrafficTreatmentBuilder;
 import org.opendaylight.yangtools.concepts.ListenerRegistration;
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier;
 import org.opendaylight.yangtools.yang.common.RpcResult;
@@ -139,7 +140,7 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 
 	// Flow objectives implementation which invokes the right driver for pushing
 	// flows to switches.
-	private OpenflowFeatureService flowObjectivesService;
+	private AtriumFlowObjectiveService flowObjectivesService;
 
 	private ListenerRegistration<DataChangeListener> listenerRegistration;
 
@@ -177,7 +178,7 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 	 */
 	public Bgprouter(TunnellingConnectivityManager connectivityManager, DataBroker dataBroker,
 			RoutingConfigService routingConfigService, RoutingService routingService,
-			PacketProcessingService packetService, OpenflowFeatureService flowObjectives) {
+			PacketProcessingService packetService, AtriumFlowObjectiveService flowObjectives) {
 		this.connectivityManager = connectivityManager;
 		this.dataBroker = dataBroker;
 		this.routingService = routingService;
@@ -604,6 +605,13 @@ public class Bgprouter implements BindingAwareConsumer, AutoCloseable {
 	 * @param dpnId
 	 */
 	public void processNodeAdd(NodeId dpnId) {
+
+		try {
+			Thread.sleep(3000);
+		}
+		catch(InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		// s1
 		if (dpnId.equals(ctrlDeviceId)) {

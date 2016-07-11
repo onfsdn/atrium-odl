@@ -14,7 +14,7 @@ import org.opendaylight.atrium.routingservice.config.api.RoutingConfigService;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.openflow.rev150211.OpenflowFeatureService;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.didm.drivers.atrium.rev150211.AtriumFlowObjectiveService;
 
 /**
  * The Class BgpRouterImplModule.
@@ -72,8 +72,8 @@ org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.bgprouter.impl.
 
 
         // FlowObjective Service
-        OpenflowFeatureService flowObjectivesService = rpcService
-                .<OpenflowFeatureService> getRpcService(OpenflowFeatureService.class);
+        AtriumFlowObjectiveService flowObjectivesService = rpcService
+                .<AtriumFlowObjectiveService> getRpcService(AtriumFlowObjectiveService.class);
 
         // RoutingConfigService initialization
         RoutingConfigService routingConfigService = this.getRoutingconfigDependency();
